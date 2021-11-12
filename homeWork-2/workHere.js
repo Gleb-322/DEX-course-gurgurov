@@ -22,7 +22,7 @@ export const sum = (f, s) => {
   
     const ceilPrice = Math.ceil(discountedPrice * 10);
   
-    return `${ceilPrice / 10} р.`;
+    return `${(ceilPrice / 10).toFixed(2)} р.`;
   };
   
   export const findSuccess = (bankResponse) => {
