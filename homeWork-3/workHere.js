@@ -4,7 +4,7 @@ export const processCartData = (cartData) => {
   const fOldPrice = cartData.filter(e=>e.oldPrice)
   fOldPrice.forEach((elem) => {
     elem['discount'] = elem.oldPrice - elem.price
-    elem['discount'] <= 0 ? delete elem['discount'] : null
+    if (elem['discount'] <= 0) {delete elem['discount']}
   })
   cartData.forEach(item => delete item.oldPrice)
   return cartData;
@@ -13,7 +13,7 @@ export const processCartData = (cartData) => {
 export const makeCartItemCopy = (cartItem) => {
   //TODO: сделать копию элемента "Пицца с анчоусами"
   // После увеличить кол-во добавленного ингредиента
-  const obj = cartItem.find(item => item.name === 'Пицца с анчоусами')
+  const obj = cartItem.find(item => item.name === "Пицца с анчоусами")
   const objIndex = cartItem.findIndex(item => item.name === 'Пицца с анчоусами')
   obj.addedIngredients[0].count++
   const copy = {...obj}
@@ -49,7 +49,7 @@ export const calcSum = (cartData) => {
 
 export const getCartItemsByDate = (cartData, date) => {
   //TODO: выбрать покупки сделанные за выбранную дату
-  return cartData.filter(e=>e.date === date);
+  return date === '' ? cartData : cartData.filter(e=>e.date.split('T')[0] === date);
 };
   
 export const repeatOrder = (cartData, date) => {
@@ -59,13 +59,12 @@ export const repeatOrder = (cartData, date) => {
   // дату текущую
   // поменять id на уникальный
   let uId = 1000
-  cartData.filter(e=>e.date === date).forEach(item => {
+  return date === '' ? cartData : cartData.filter(e=>e.date.split('T')[0] === date).forEach(item => {
     let copy = {...item}
     copy.date = new Date().toISOString()
     copy.id = uId++
     cartData.unshift(copy)
-  })
-  return cartData;
+  });
 };
 
 export const addItem = (cartData, item) => {
@@ -81,15 +80,19 @@ export const checkPromo = (cartData) => {
   // проверить что суммарно в корзине больше 1000р
   // что есть пункт больше чем на 500р
   // что нет скидочных товаров
-  let totalSum = 0, bigOne = false, totalS = false
+  let totalSum = 0, totalS = false, totalWaterPrice = 0, totalPizzaPrice = 0, totalOthersPrice = 0
   cartData.forEach((item) => {
     totalSum += item.price * item.count
     if (totalSum > 1000) {return totalS = true} 
   });
-  cartData.forEach((el) => el.price * el.count  > 500 ?  bigOne = true : null);
+  cartData.forEach(obj => {
+    if(obj.type === 'water') {totalWaterPrice += obj.price * obj.count}
+    if(obj.type === 'pizza') {totalPizzaPrice += obj.price * obj.count}
+    if(obj.type === 'other') {totalOthersPrice += obj.price * obj.count}
+  })
   return {
     total: totalS,
-    oneBigPosition: bigOne,
+    oneBigPosition: totalWaterPrice > 500 || totalPizzaPrice > 500  || totalOthersPrice > 500 ? true : false,
     notDiscounted: cartData.filter(e=> e.discount).length === 0 ? true : false
   };
 };
