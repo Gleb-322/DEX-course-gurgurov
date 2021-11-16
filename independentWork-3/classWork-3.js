@@ -21,13 +21,7 @@ function funcContainer(str) {
       }
     }
   }
-  // function funcСurrying(num) {
-  //   return (num2) => {
-  //     return (num3) => {
-  //       return num + num2 + num3
-  //     }
-  //   }
-  // }
+  
   console.log("funcСurrying(1)(3)(4) ", funcСurrying(1)(3)(4));
   
   // Создать функцию, которая будет выполняться
