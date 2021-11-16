@@ -49,9 +49,7 @@ export const getSortWage = (data) => {
   // Элемент выглядит как "basketball"
   // Вывод: "В баскетбол играют {число} пользователей"
   export const getBasketPlayers = (data) => {
-    return `В баскетбол играют ${
-      data.filter((e) => e.hobby.indexOf("basketball") !== -1).length
-    } пользователей`;
+    return `В баскетбол играют ${data.filter((e) => e.hobby.indexOf("basketball") !== -1).length} пользователей`;
   };
   
   //TODO: Вывести  пользователей, у которых в адресе есть число, к примеру
