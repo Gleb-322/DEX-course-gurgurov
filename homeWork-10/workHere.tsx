@@ -17,11 +17,13 @@ const useProjects = (): loadedData<IProject[]> => {
 
   useEffect(() => {
     setLoading(true);
-    fetchProjects().then((content: []) => {
-      setContent(content);
-      setLoading(false);
-    });
-  }, [content]);
+    fetchProjects()
+      .then((content: []) => {
+        setContent(content);
+        setLoading(false);
+      })
+      .catch(() => new Error("Ошибка промиса"));
+  }, []);
 
   return {
     isLoading,
@@ -52,10 +54,12 @@ const useTodos = (projectId: number | null): deletableLoadedTata<ITodo[]> => {
   useEffect(() => {
     setLoading(true);
     if (typeof projectId === "number") {
-      fetchTotos(projectId).then((content: []) => {
+      fetchTotos(projectId)
+      .then((content: []) => {
         setLoading(false);
         return setContent(content);
-      });
+      })
+      .catch(() => new Error("Ошибка промиса"));
     }
   }, [projectId]);
 
@@ -87,7 +91,6 @@ type FilterProps = {
 const FilterComponent: FC<FilterProps> = ({ onFilter }) => {
   const [search, setSearch] = useState("");
   useMemo(() => console.log("FilterComponent render"), []);
-
   return (
     <div>
       Фильтр:&nbsp;
