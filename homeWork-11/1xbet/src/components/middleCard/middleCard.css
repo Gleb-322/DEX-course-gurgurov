@@ -105,7 +105,6 @@
 
 .wrap_btns_btn {
     cursor: pointer;
-    background-color: #394552;
     border: 3px solid #fff;
     width: 49px;
     height: 22px;
@@ -119,9 +118,6 @@
     text-transform: uppercase;
 }
 
-.active {
-    background-color: #27AF11;
-}
 
 .wrap_text {
     display: flex;
@@ -337,7 +333,85 @@
     }
 }
 
-@media (max-width: 576px) {
+@media (min-width: 376px) and (max-width: 576px) {
+    .middle {
+        margin-top: 0;
+        height: 370px;
+        width: 430px;
+        padding: 0px 12px 0px 12px;
+    }
+    
+    .middle_btn {
+        width: 430px;
+        height: 40px;
+        font-size: 14px;
+        line-height: 23px;
+    }
+    .polygon {
+        width: 24px;
+        height: 24px;
+    }
+    .polygon_img {
+        left: 9px;
+        width: 9px;
+        height: 9px;
+    }
+    .title {
+        margin-top: 39px;
+        font-size: 18px;
+        line-height: 18px;
+    }
+
+    .block_timer {
+        margin-top: 20px;
+    }
+    .timer {
+        width: 140px;
+        height: 48px;
+        font-size: 21px;
+        line-height: 37px;
+        text-transform: uppercase;
+    }
+    .mini_img {
+        width: 70px;
+        height: 70px;
+    }
+    .mini-text {
+        font-size: 12px;
+        line-height: 21px;
+    }
+    .block_bet_btn {
+        width: 132px;
+        height: 40px;
+    }
+    .descr_title {
+        font-size: 17px;
+        line-height: 24px;
+    }
+    .descr_subtitle {
+        font-size: 16px;
+        line-height: 18px;
+    }
+    .block_bet_btn-text {
+        display: none;
+    }
+    .db {
+        display: block;
+        font-size: 14px;
+        line-height: 18px;
+        margin-left: 7px;
+    }
+    .wrap_text_elem {
+        line-height: 15px;
+    }
+    .wrap_btns_bet {
+        margin-top: 26px;
+    }
+}
+
+
+
+@media (min-width: 320px) and (max-width: 376px) {
     .middle {
         margin-top: 0;
         height: 316px;

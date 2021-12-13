@@ -49,17 +49,55 @@
     }
 }
 
-@media (max-width: 576px) {
+
+@media (min-width: 376px) and (max-width: 576px) {
     .promo {
-        overflow: hidden;
+        position: relative;
+        overflow-x: scroll;
         display: flex;
+        width: 576px;
         background: url("./banner_mobile.png") no-repeat , #0D1116;
+        background-size: 100% 60%;
+        padding: 70px 16px 0px 75px;
+    }
+    
+    .promo::-webkit-scrollbar {
+        width: 430px;
+        height: 4px;
+    }
+    .promo::-webkit-scrollbar-thumb {
+        background: #1B232C; 
+    }
+    .promo::-webkit-scrollbar-track {
+        background:  #5C6168;
+    }
+
+
+    .container {
+        width: 1800px;
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 376px) {
+    .promo {
+        overflow-x: scroll;
+        display: flex;
+        width: 376px;
         padding: 70px 16px 0px 16px;
+        background: url("./banner_mobile.png") no-repeat , #0D1116;
     }
-    .devider_line {
-        display: block;
+    .promo::-webkit-scrollbar {
+        width: 376px;
+        height: 4px;
     }
-    /* .devider_line */
+    .promo::-webkit-scrollbar-thumb {
+        background: #1B232C; 
+    }
+    .promo::-webkit-scrollbar-track {
+        background:  #5C6168;
+    }
     .container {
         width: 1600px;
         display: flex;

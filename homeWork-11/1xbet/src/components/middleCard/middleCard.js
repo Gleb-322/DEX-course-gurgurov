@@ -68,6 +68,10 @@ export const Middle = () => {
         alert('Watch')
     }
 
+    const a = 2.32;
+    const b = 1.82;
+    const c = 3.82;
+
     return (
         <div className='middle'>
             <div className='title'>1-й тур | Тинькофф РПЛ</div>
@@ -92,9 +96,9 @@ export const Middle = () => {
 
                 <div className='wrap_btns_bet'>
                     <div className='wrap_btns'>
-                        <button onClick={HandlerAlertBet} className='wrap_btns_btn'>3.82</button>
-                        <button onClick={HandlerAlertBet} className='wrap_btns_btn'>3.82</button>
-                        <button onClick={HandlerAlertBet} className='wrap_btns_btn active'>3.82</button>
+                        <button onClick={HandlerAlertBet} style={{backgroundColor: (a > b && a > c) ? 'red' : '#27AF11'}} className='wrap_btns_btn'>{a}</button>
+                        <button onClick={HandlerAlertBet} style={{backgroundColor: (b > a && b > c) ? 'red' : '#27AF11'}} className='wrap_btns_btn'>{b}</button>
+                        <button onClick={HandlerAlertBet} style={{backgroundColor: (c > b && c > a) ? 'red' : '#27AF11'}} className='wrap_btns_btn'>{c}</button>
                     </div>
                     <div className='wrap_text'>
                         <span className='wrap_text_elem'>П1</span>
