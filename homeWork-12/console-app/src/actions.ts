@@ -1,4 +1,3 @@
-
 const cd = (str: string) => ({
     type: 'cd',
     payload: str
