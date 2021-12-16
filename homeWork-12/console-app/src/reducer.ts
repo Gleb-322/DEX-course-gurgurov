@@ -25,9 +25,6 @@ export const reducer = (state = initialState, action:IAction) => {
         case 'cd':
             
             if (action.payload === 'cd') return state
-            console.log('prev ',state.statePrevCommand)
-            console.log('buffer ',state.bufferCommands)
-            console.log('position ',state.currentPosition)
             return {
                 ...state,
                 history: [...state.history, state.directory.join('') + ' ' + action.payload ],
@@ -57,9 +54,6 @@ export const reducer = (state = initialState, action:IAction) => {
             }
             
         case 'cd/prevCommand':
-            console.log('prevPrev ',state.statePrevCommand)
-            console.log('buffer ',state.bufferCommands)
-            console.log('position ',state.currentPosition)
             if (state.currentPosition === 0) {
                 return {
                     ...state,
@@ -74,9 +68,6 @@ export const reducer = (state = initialState, action:IAction) => {
             }
 
         case 'cd/nextCommand':
-            console.log('prevNext ',state.statePrevCommand)
-            console.log('buffer ',state.bufferCommands)
-            console.log('position ',state.currentPosition)
             if (state.currentPosition === state.bufferCommands.length - 1) {
                 return {
                     ...state,

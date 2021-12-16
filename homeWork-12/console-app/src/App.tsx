@@ -33,7 +33,6 @@ const App = () => {
     switch (event.key) {
 
       case 'Enter':
-        console.log('enter')
         if (inputValue.split(' ')[0] === 'cd') {
 
           if (inputValue.split(' ')[1] === '..' && inputValue.split(' ').length === 2) {
@@ -44,7 +43,6 @@ const App = () => {
 
           } else if (inputValue.split(' ').length > 2) {
             const syntaxError = `Не удается найти позиционный параметр, который принимает аргумент - ${inputValue.split(' ')[2]}.`
-            console.log('er')
             dispatch(errorMessage(syntaxError))
             if (inputRef.current) {
               inputRef.current.value = ""
@@ -80,7 +78,6 @@ const App = () => {
 
       case 'ArrowUp':
         dispatch(prevCommand())
-        console.log('ArrowUp')
         if (inputRef.current) {
           inputRef.current.value = statePrevCommand
         }
@@ -88,7 +85,6 @@ const App = () => {
 
       case 'ArrowDown':
         dispatch(nextCommand())
-        console.log('ArrowDown')
         if (inputRef.current) {
           inputRef.current.value = stateNextCommand
         } 
