@@ -17,6 +17,10 @@
   line-height: 18px;
 }
 
+.print_message {
+  color: wheat;
+}
+
 .App_block {
   display: flex;
   justify-content: flex-start;

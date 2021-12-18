@@ -1,30 +1,42 @@
-const cd = (str: string) => ({
-    type: 'cd',
-    payload: str
-})
+const cd = (str: string) => {
+    return {
+        type: 'cd',
+        payload: str
+    }
+}
 
-const print = (str: string) => ({
-    type: 'cd/print',
-    payload: str
-})
+const print = (str: string) => {
+    return {
+        type: 'cd/print',
+        payload: str
+    }
+}
 
-const cdBack = (str: string) => ({
-    type: 'cd/back',
-    payload: str
-})
+const cdBack = (str: string) => {
+    return {
+        type: 'cd/back',
+        payload: str
+    }
+}
 
-const prevCommand = () => ({
-    type: 'cd/prevCommand'
-})
+const prevCommand = () => {
+    return {
+        type: 'cd/prevCommand'
+    }
+}
 
-const nextCommand = () => ({
-    type: 'cd/nextCommand'
-})
+const nextCommand = () => {
+    return {
+        type: 'cd/nextCommand'
+    }  
+}
 
-const errorMessage = (str: string) => ({
-    type: 'cd/errorMessage',
-    payload: str
-})
+const errorMessage = (str: string) => {
+    return {
+        type: 'cd/errorMessage',
+        payload: str
+    }
+}
 
 export {
     cd,

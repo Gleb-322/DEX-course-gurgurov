@@ -1,20 +1,10 @@
-import { useState, useRef, useEffect} from "react"
-import { useSelector, useDispatch } from "react-redux";
-import {cd, cdBack, print, nextCommand, prevCommand, errorMessage} from './actions';
-import './App.css';
-
-interface IInitialState {
-  history: string[],
-  directory: string[],
-  bufferCommands: string[],
-  currentPosition: number,
-  statePrevCommand: string,
-  stateNextCommand: string
-}
+import { useRef, useEffect} from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { cd, cdBack, print, nextCommand, prevCommand, errorMessage } from './actions'
+import { IInitialState } from "./reducer"
+import './App.css'
 
 const App = () => {
-
-  const [inputValue, setInputValue] = useState('')
   const history = useSelector((state: IInitialState) => state.history)
   const directory = useSelector((state: IInitialState) => state.directory);
   const statePrevCommand = useSelector((state: IInitialState) => state.statePrevCommand);
@@ -29,65 +19,79 @@ const App = () => {
     }
   })
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const enterCaseIf = () => {
+    if (inputRef.current) {
+      if (inputRef.current.value.split(' ')[1] === '..' && inputRef.current.value.split(' ').length === 2) {
+        dispatch(cdBack(inputRef.current.value))
+        inputRef.current.value = ""
+
+      } else if (inputRef.current.value.split(' ').length > 2) {
+        const syntaxError = `Не удается найти позиционный параметр, который принимает аргумент - ${inputRef.current.value.split(' ')[2]}.`
+        dispatch(errorMessage(syntaxError))
+        inputRef.current.value = ""
+
+      } else if (inputRef.current.value.split(' ').length === 2) {
+        dispatch(cd(inputRef.current.value))
+        inputRef.current.value = ""
+      } 
+    }
+  }
+
+  const enterCaseElse = () => {
+    if (inputRef.current) {
+      if (inputRef.current.value.split(' ')[0] !== 'cd' && inputRef.current.value.split(' ')[0] !== 'print') {
+        const commandNotFound = `${inputRef.current.value.split(' ')[0]} - такой команды не существет`
+        dispatch(errorMessage(commandNotFound))
+        inputRef.current.value = ""
+
+      } else if (inputRef.current.value.split(' ')[0] === 'print') {
+        dispatch(print(inputRef.current.value))
+        inputRef.current.value = ""
+
+      } else if (inputRef.current.value === 'cd') {
+        dispatch(cd(inputRef.current.value))
+      }
+    }
+  }
+
+  const enterCase = () => {
+    if (inputRef.current) {
+      (inputRef.current.value.split(' ')[0] === 'cd') ? enterCaseIf() : enterCaseElse()
+    }
+  }
+
+  const arrowUpCase = () => {
+    if (inputRef.current) {
+      dispatch(prevCommand())
+      inputRef.current.value = statePrevCommand
+    }
+  }
+
+  const arrowDownCase = () => {
+    if (inputRef.current) {
+      dispatch(nextCommand())
+      inputRef.current.value = stateNextCommand
+    } 
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     switch (event.key) {
-
       case 'Enter':
-        if (inputValue.split(' ')[0] === 'cd') {
-
-          if (inputValue.split(' ')[1] === '..' && inputValue.split(' ').length === 2) {
-            dispatch(cdBack(inputValue))
-            if (inputRef.current) {
-              inputRef.current.value = ""
-            }
-
-          } else if (inputValue.split(' ').length > 2) {
-            const syntaxError = `Не удается найти позиционный параметр, который принимает аргумент - ${inputValue.split(' ')[2]}.`
-            dispatch(errorMessage(syntaxError))
-            if (inputRef.current) {
-              inputRef.current.value = ""
-            }
-
-          } else if (inputValue.split(' ').length === 2) {
-            dispatch(cd(inputValue))
-            if (inputRef.current) {
-              inputRef.current.value = ""
-            }
-
-          } 
-
-        } else {
-          if (inputValue.split(' ')[0] !== 'cd' && inputValue.split(' ')[0] !== 'print') {
-            const commandNotFound = `${inputValue.split(' ')[0]} - такой команды не существет`
-            dispatch(errorMessage(commandNotFound))
-            if (inputRef.current) {
-              inputRef.current.value = ""
-            }
-
-          } else if (inputValue.split(' ')[0] === 'print') {
-            dispatch(print(inputValue))
-            if (inputRef.current) {
-              inputRef.current.value = ""
-            }
-          } else if (inputValue === 'cd') {
-            dispatch(cd(inputValue))
-          }
-          
-        }
+        console.log('-------------------------')
+        console.log('Enter')
+        enterCase()
         break;
 
       case 'ArrowUp':
-        dispatch(prevCommand())
-        if (inputRef.current) {
-          inputRef.current.value = statePrevCommand
-        }
+        console.log('-------------------------')
+        console.log('ArrowUp')
+        arrowUpCase()
         break;
 
       case 'ArrowDown':
-        dispatch(nextCommand())
-        if (inputRef.current) {
-          inputRef.current.value = stateNextCommand
-        } 
+        console.log('-------------------------')
+        console.log('ArrowDown')
+        arrowDownCase()
         break;
 
       default:
@@ -95,15 +99,10 @@ const App = () => {
     } 
   }
 
-
   return (
     <div className="App">
       <div className="history">
-        {
-          history.map((el, i) => {
-            return <div key={i}>{el}</div>
-          })
-        }
+        {history.map((el, i) => <div key={i}>{el}</div>)}
       </div>
       <div className="App_block">
         <div className="directory">{directory.join('')}</div>
@@ -111,8 +110,7 @@ const App = () => {
           className="input" 
           type="text"
           ref={inputRef}
-          onKeyDown={handleKeyPress}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setInputValue(event.target.value.trim())}
+          onKeyDown={handleKeyDown}
         />
       </div>
       
