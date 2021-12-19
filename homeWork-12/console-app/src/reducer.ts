@@ -20,22 +20,15 @@ interface IAction {
 }
 
 export const reducer = (state = initialState, action:IAction) => {
-	// console.log('в начале reducer',state)
 	switch (action.type) {
 		case 'cd':
 			if (action.payload.trim() === 'cd') return state
-
-			// console.log('currentPos', state.currentPosition)
-			// console.log('bufferCommands', state.bufferCommands)
-			// console.log('statePrevCommand', state.statePrevCommand)
-			// console.log('stateNextCommand', state.stateNextCommand)
-
 			return {
 				...state,
 				history: [...state.history, state.directory.join('') + ' ' + action.payload],
 				directory: [...state.directory, '\\' + action.payload.split(' ')[1]],
 				bufferCommands: [...state.bufferCommands, action.payload],
-				currentPosition: state.bufferCommands.length
+				currentPosition: state.bufferCommands.length + 1
 			}
 				
 		case 'cd/print':
@@ -58,10 +51,6 @@ export const reducer = (state = initialState, action:IAction) => {
 			}
 				
 		case 'cd/prevCommand':
-			// console.log('currentPos', state.currentPosition)
-			// console.log('bufferCommands', state.bufferCommands)
-			// console.log('statePrevCommand', state.statePrevCommand)
-			// console.log('stateNextCommand', state.stateNextCommand)
 			if (state.currentPosition === 0) {
 				return {
 					...state,
@@ -71,15 +60,12 @@ export const reducer = (state = initialState, action:IAction) => {
 				return {
 					...state,
 					currentPosition: state.currentPosition - 1,
-					statePrevCommand: state.bufferCommands[state.currentPosition - 1]
+					statePrevCommand: state.bufferCommands[state.currentPosition - 1],
+					stateNextCommand: state.bufferCommands[state.currentPosition]
 				}
 			}
 
 		case 'cd/nextCommand':
-			// console.log('currentPos', state.currentPosition)
-			// console.log('bufferCommands', state.bufferCommands)
-			// console.log('statePrevCommand', state.statePrevCommand)
-			// console.log('stateNextCommand', state.stateNextCommand)
 			if (state.currentPosition === state.bufferCommands.length - 1) {
 				return {
 					...state,
@@ -96,7 +82,7 @@ export const reducer = (state = initialState, action:IAction) => {
 		case 'cd/errorMessage': 
 			return {
 				...state,
-				history: [...state.history, state.directory.join('') + '\n' + action.payload + '\n']
+				history: [...state.history, state.directory.join('') + action.payload]
 			}
 
 		default:
