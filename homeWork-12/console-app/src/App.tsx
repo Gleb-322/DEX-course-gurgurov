@@ -12,6 +12,7 @@ const App = () => {
   const directory = useSelector((state: IInitialState) => state.directory);
   const statePrevCommand = useSelector((state: IInitialState) => state.statePrevCommand);
   const stateNextCommand = useSelector((state: IInitialState) => state.stateNextCommand);
+  const bufferCommands = useSelector((state: IInitialState) => state.bufferCommands);
 
   const inputRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch();
@@ -22,13 +23,13 @@ const App = () => {
     }
   }, [])
 
-  // useEffect(() => {
-  //   setInput(statePrevCommand)
-  // },[statePrevCommand])
+  useEffect(() => {
+    setInput(statePrevCommand)
+  },[statePrevCommand])
 
-  // useEffect(() => {
-  //   setInput(stateNextCommand)
-  // },[stateNextCommand])
+  useEffect(() => {
+    setInput(stateNextCommand)
+  },[stateNextCommand])
 
   const enterCaseIf = () => {
     if (input.split(' ')[1] === '..' && input.split(' ').length === 2) {
@@ -37,7 +38,7 @@ const App = () => {
 
     } else if (input.split(' ').length > 2) {
       const syntaxError = `Не удается найти позиционный параметр, который принимает аргумент - ${input.split(' ')[2]}.`
-      dispatch(errorMessage(syntaxError))
+      dispatch(errorMessage(input, syntaxError))
       setInput('')
 
     } else if (input.split(' ').length === 2) {
@@ -49,7 +50,7 @@ const App = () => {
   const enterCaseElse = () => {
     if (input.split(' ')[0] !== 'cd' && input.split(' ')[0] !== 'print') {
       const commandNotFound = `${input.split(' ')[0]} - такой команды не существет`
-      dispatch(errorMessage(commandNotFound))
+      dispatch(errorMessage(input, commandNotFound))
       setInput('')
 
     } else if (input.split(' ')[0] === 'print') {
@@ -64,22 +65,32 @@ const App = () => {
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     switch (event.key) {
       case 'Enter':
-        (input.split(' ')[0] === 'cd') ? enterCaseIf() : enterCaseElse()
-        break;
-
+        if (input) {
+          (input.split(' ')[0] === 'cd') ? enterCaseIf() : enterCaseElse()
+          break;
+        }
+        break
+        
       case 'ArrowUp':
-        dispatch(prevCommand())
-        setInput(statePrevCommand)
-        break;
+        if (bufferCommands.length !== 0) {
+          dispatch(prevCommand())
+          setInput(statePrevCommand)
+          break;
+        }
+        break
 
       case 'ArrowDown':
-        dispatch(nextCommand())
-        setInput(stateNextCommand)
-        break;
+        if (bufferCommands.length !== 0) {
+          dispatch(nextCommand())
+          setInput(stateNextCommand)
+          break;
+        }
+        break
 
       default:
         break;
     } 
+    
   }
   
   return (

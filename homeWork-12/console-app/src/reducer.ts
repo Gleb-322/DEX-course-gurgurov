@@ -16,7 +16,8 @@ const initialState: IInitialState = {
 }
 interface IAction {
 	type: string,
-	payload: string
+	payload: string,
+	errorMessage: string
 }
 
 export const reducer = (state = initialState, action:IAction) => {
@@ -36,7 +37,8 @@ export const reducer = (state = initialState, action:IAction) => {
 			return {
 				...state,
 				history: [...state.history, state.directory.join('') + " " + action.payload, action.payload.replace('print ', '')],
-				bufferCommands: [...state.bufferCommands, action.payload]
+				bufferCommands: [...state.bufferCommands, action.payload],
+				currentPosition: state.bufferCommands.length + 1
 			}
 
 		case 'cd/back':
@@ -44,7 +46,9 @@ export const reducer = (state = initialState, action:IAction) => {
 				return {
 					...state,
 					history: [...state.history, state.directory.join('') + " " + action.payload],
-					directory: state.directory.slice(0, state.directory.length - 1)
+					bufferCommands: [...state.bufferCommands, action.payload],
+					directory: state.directory.slice(0, state.directory.length - 1),
+					currentPosition: state.bufferCommands.length + 1
 				}
 			} else {
 				return state
@@ -60,8 +64,7 @@ export const reducer = (state = initialState, action:IAction) => {
 				return {
 					...state,
 					currentPosition: state.currentPosition - 1,
-					statePrevCommand: state.bufferCommands[state.currentPosition - 1],
-					stateNextCommand: state.bufferCommands[state.currentPosition]
+					statePrevCommand: state.bufferCommands[state.currentPosition - 1]
 				}
 			}
 
@@ -74,7 +77,7 @@ export const reducer = (state = initialState, action:IAction) => {
 			} else {
 				return {
 					...state,
-					stateNextCommand: state.bufferCommands[state.currentPosition],
+					stateNextCommand: state.bufferCommands[state.currentPosition + 1],
 					currentPosition: state.currentPosition + 1
 				}
 			}
@@ -82,7 +85,9 @@ export const reducer = (state = initialState, action:IAction) => {
 		case 'cd/errorMessage': 
 			return {
 				...state,
-				history: [...state.history, state.directory.join('') + action.payload]
+				history: [...state.history, state.directory.join('') + action.payload, action.errorMessage],
+				bufferCommands: [...state.bufferCommands, action.payload],
+				currentPosition: state.bufferCommands.length + 1
 			}
 
 		default:

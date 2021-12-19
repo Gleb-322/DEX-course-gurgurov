@@ -31,10 +31,11 @@ const nextCommand = () => {
     }  
 }
 
-const errorMessage = (str: string) => {
+const errorMessage = (str: string, errorMessage: string) => {
     return {
         type: 'cd/errorMessage',
-        payload: str
+        payload: str,
+        errorMessage: errorMessage
     }
 }
 
