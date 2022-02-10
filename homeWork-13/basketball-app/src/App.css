@@ -1,0 +1,116 @@
+ /* checkbox */
+.check {
+    z-index: -1;
+    opacity: 0;
+}
+
+
+.check+.labelCheck {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;   
+}
+
+.check+.labelCheck::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border-radius: 2px;
+    margin-right: 8px;
+    border: 1px solid #9C9C9C;
+}
+
+.check:checked+.labelCheck::before {
+    background: #E4163A;
+    border: 1px solid #E4163A;
+    border-radius: 2px;
+    background-image: url("./assests/icons/path.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 60% 50%;
+}
+
+.check:not(:disabled):not(:checked)+.labelCheck:hover::before {
+    border: 1px solid #E4163A;
+    border-radius: 2px;
+}
+
+.check:disabled+.labelCheck::before {
+    background: #F6F6F6;
+    border-radius: 2px;
+}
+
+.check:disabled:checked+.labelCheck::before {
+    background: #D1D1D1;
+    border-radius: 2px;
+    border: 1px solid #D1D1D1;
+    background-image: url("./assests/icons/path.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 60% 50%;
+}
+
+
+.checkBlock {
+    margin-top: 30px;
+    position: relative;
+}  
+
+.labelCheck {
+    position: absolute;
+    top: 0;
+    left: 16px;
+    margin-left: 8px;
+    font-family: 'Avenir';
+    font-weight: 500;
+    font-size: 14px;
+    color: #707070;
+}
+
+.labelCheckDisabled {
+    color: #D1D1D1;
+}
+
+.labelCheckError {
+    color: #FF768E;
+}
+
+.checkError {
+    position: relative;
+    z-index: -1;
+    opacity: 0;
+}
+
+
+.checkError+.labelCheck {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;   
+}
+
+.checkError+.labelCheck::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border-radius: 2px;
+    margin-right: 8px;
+    border: 1px solid #FF768E;
+}
+
+.checkErrorMessage {
+    position: absolute;
+    bottom: -14px;
+    left: 24px;
+    font-family: 'Avenir';
+    font-weight: 500;
+    font-size: 12px;
+    color: #FF768E;
+}
+
+
