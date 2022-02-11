@@ -1,0 +1,129 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.Block {
+  height: 30px;
+  margin-bottom: 5px;
+  }
+form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+
+}
+
+label {
+  font-weight: bold;
+  margin-top: 15px;
+}
+input {
+  max-width: 300px;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+  &:optional {
+    border: 4px dotted  red;
+  }
+  &:required {
+    border: 4px solid  brown;
+  }
+  &.email:invalid {
+    border: 4px solid  red;
+  }
+  &.email:valid {
+    border: 4px solid  green;
+  }
+  &#auto_number:invalid {
+    border: 4px solid  red;
+  }
+  &#auto_number:valid {
+    border: 4px solid  green;
+  }
+}
+
+
+// email если не корректный красный если коректный зеленый
+
+fieldset {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.check {
+  max-width: 300px;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+  &:checked ~ div:nth-child(odd) {
+    border: 1px solid red;
+  }
+  &:checked ~ div:nth-child(even) {
+    border: 1px solid blue;
+  }
+  &:checked ~ div:nth-child(3) {
+    border: 1px solid black;
+  }
+  &:checked ~ div:last-child {
+    border: 1px solid green;
+  }
+}
+
+.bg {
+  width: 500px;
+  height: 500px;
+  background-image: url('../public/smok.png'), url('../public/slp2.png'), url('../public/spl3.png'), url('../public/slp4.png'), url('../public/cow.png'), url('../public/fon.jpg');
+  background-position: 20% 53%,11% 33%,56.5% 36.5%, 99.5% 35%, center, center;
+  background-repeat: no-repeat,no-repeat, no-repeat, no-repeat, space no-repeat , no-repeat;
+  background-size: 30px, auto, 80px, auto, auto, auto;
+}
+
+.transitionBlock {
+  box-sizing: border-box;
+  padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 800px;
+  height: 550px;
+  background-color: gray;
+}
+
+.transitionCheck {
+  &:checked ~ .transitionItem  {
+    margin: 0 0 0 700px;
+  }
+  &:checked ~ .transitionText {
+    color: gray;
+  }
+}
+
+.transitionText {
+  color: black;
+  transition: color 1.2s ease-in-out;
+}
+
+.transitionItem {
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  &Red {
+    background-color: darkred;
+    transition: margin 1.2s ease-in-out;
+  }
+  &Green {
+    background-color: darkgreen;
+    transition: margin 1.2s ease-in-out 0.1s;
+  }
+  &Blue {
+    background-color: darkblue;
+    transition: margin 1.2s ease-in-out 0.3s;
+  }
+  &Violet {
+    background-color: darkviolet;
+    transition: margin 1.2s ease-in-out 0.5s;
+  }
+}
