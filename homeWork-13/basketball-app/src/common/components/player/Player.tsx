@@ -1,7 +1,8 @@
 import styled from 'styled-components'
-import { ReactComponent as PlayerSVG }  from '../../../assets/images/Player.svg'
 import { ReactComponent as CreateSVG } from '../../../assets/icons/create.svg'
 import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg'
+import PlayerPNG  from '../../../assets/images/Player.png'
+
 
 const PlayerItem = styled.section`
   width: 1140px;
@@ -62,11 +63,15 @@ const PlayerWrapper = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 `
-// const LogoDiv = styled.span`
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-// `
+const LogoDiv = styled.span`
+  width: 531px;
+  height: 531px;
+`
+const Img = styled.img`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`
 const PlayerName = styled.h1`
   margin: 0px;
   margin-bottom: 40px;
@@ -101,9 +106,9 @@ const Player = () => {
         </PlayerHeaderIcons>
       </PlayerHeader>
       <PlayerWrapper>
-        {/* <LogoDiv> */}
-          <PlayerSVG/>
-        {/* </LogoDiv> */}
+        <LogoDiv>
+          <Img src={PlayerPNG} alt='player'/>
+        </LogoDiv>
         <PlayerDescr>
           <PlayerName>Greg Whittington <NumberSpan>#22</NumberSpan></PlayerName>
           <PlayerBlock>

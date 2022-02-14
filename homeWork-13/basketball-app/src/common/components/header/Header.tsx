@@ -1,6 +1,7 @@
 import styled from "styled-components"
+import { ReactComponent as LogoSVG} from '../../../assets/images/logo.svg'
 import { ReactComponent as ProfileSVG} from '../../../assets/icons/profile.svg'
-import { ReactComponent as LogoSVG} from '../../../assets/icons/logo.svg'
+
 
 const HeaderDiv = styled.header`
   display: flex;

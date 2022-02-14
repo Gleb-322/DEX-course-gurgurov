@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import { ReactComponent as TeamSVG } from '../../../assets/icons/hamburger_teams.svg'
-import { ReactComponent as PlayerSVG } from '../../../assets/icons/hamburger_players.svg'
+import { ReactComponent as HamburgerTeamSVG } from '../../../assets/icons/hamburger_teams.svg'
+import { ReactComponent as HamburgerPlayerSVG } from '../../../assets/icons/hamburger_players.svg'
 import { ReactComponent as LogOutSVG } from '../../../assets/icons/hamburger_out.svg'
 
 const Menu = styled.section`
@@ -54,11 +54,11 @@ const HamburgerMenu = () => {
     <Menu>
       <Header>
         <Block>
-          <TeamSVG />
+          <HamburgerTeamSVG />
           <TextTeams>Teams</TextTeams>
         </Block>
         <Block>
-          <PlayerSVG />
+          <HamburgerPlayerSVG />
           <TextPlayers>Players</TextPlayers>
         </Block>
       </Header>

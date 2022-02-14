@@ -1,7 +1,9 @@
 import styled from "styled-components"
-import { ReactComponent as TeamSVG } from '../../../assets/images/Team.svg'
+
 import { ReactComponent as CreateSVG } from '../../../assets/icons/create.svg'
 import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg'
+import TeamPNG from '../../../assets/images/Team.png'
+
 
 const TeamItem = styled.section`
   width: 1140px;
@@ -82,6 +84,8 @@ const TeamContent = styled.div`
 `
 const Small = styled.small``
 
+const Img = styled.img``
+
 const Team = () => {
   return (
     <TeamItem>
@@ -94,7 +98,7 @@ const Team = () => {
       </TeamHeader>
       <TeamWrapper>
         <SvgDiv>
-          <TeamSVG />
+          <Img src={TeamPNG} alt='team'/>
         </SvgDiv>
         <TeamDescr>
           <TeamName>Denver Nuggets</TeamName>

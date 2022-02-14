@@ -1,110 +1,89 @@
-.check {
-    z-index: -1;
-    opacity: 0;
-}
-
-.check+.labelCheck {
-    display: inline-flex;
-    align-items: center;
-    user-select: none;   
-}
-
-.check+.labelCheck::before {
-    content: '';
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    flex-shrink: 0;
-    flex-grow: 0;
-    border-radius: 2px;
-    margin-right: 8px;
-    border: 1px solid #9C9C9C;
-}
-
-.check:checked+.labelCheck::before {
-    background: #E4163A;
-    border: 1px solid #E4163A;
-    border-radius: 2px;
-    background-image: url("../../../assets/icons/path.svg");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 60% 50%;
-}
-
-.check:not(:disabled):not(:checked)+.labelCheck:hover::before {
-    border: 1px solid #E4163A;
-    border-radius: 2px;
-}
-
-.check:disabled+.labelCheck::before {
-    background: #F6F6F6;
-    border-radius: 2px;
-}
-
-.check:disabled:checked+.labelCheck::before {
-    background: #D1D1D1;
-    border-radius: 2px;
-    border: 1px solid #D1D1D1;
-    background-image: url("../../../assets/icons/path.svg");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 60% 50%;
-}
-
-
-.checkBlock {
-    margin-top: 30px;
+.container {
+    display: block;
     position: relative;
-}  
-
-.labelCheck {
-    position: absolute;
-    top: 0;
-    left: 16px;
-    margin-left: 8px;
+    padding-left: 24px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     font-family: 'Avenir';
     font-weight: 500;
     font-size: 14px;
+    line-height: 23px;
     color: #707070;
 }
-
-.labelCheckDisabled {
-    color: #D1D1D1;
-}
-
-.labelCheckError {
-    color: #FF768E;
-}
-
-.checkError {
-    position: relative;
-    z-index: -1;
+  
+.container input {
+    position: absolute;
     opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 }
 
-
-.checkError+.labelCheck {
-    display: inline-flex;
-    align-items: center;
-    user-select: none;   
-}
-
-.checkError+.labelCheck::before {
-    content: '';
-    display: inline-block;
-    width: 12px;
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 12px;
-    flex-shrink: 0;
-    flex-grow: 0;
-    border-radius: 2px;
-    margin-right: 8px;
-    border: 1px solid #FF768E;
+    width: 12px;
+    background-color: #fff;
+    border: solid 2px #9C9C9C;
+    border-radius: 3px;
+} 
+
+.container:hover input ~ .checkmark {
+    border: solid 2px #E4163A;
 }
+
+.container input:checked ~ .checkmark {
+    background-color: #E4163A;
+    border: solid 2px #E4163A;
+}
+
+.container input:disabled ~ .checkmark {
+    background-color: #F6F6F6;
+    border: solid 2px #D1D1D1;
+}
+
+.container input:disabled:checked ~ .checkmark {
+    background-color: #D1D1D1;
+    border: solid 2px #D1D1D1;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.container input:not(:checked) ~ .checkErrorMessage {
+    display: block;
+}
+  
+.container .checkmark:after {
+    left: 3.5px;
+    top: 0.5px;
+    width: 3px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
 
 .checkErrorMessage {
+    display: none;
     position: absolute;
-    bottom: -14px;
-    left: 24px;
+    bottom: 6px;
+    left: 0px;
     font-family: 'Avenir';
     font-weight: 500;
     font-size: 12px;
