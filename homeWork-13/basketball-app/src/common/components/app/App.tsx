@@ -1,16 +1,17 @@
+
 import styled from 'styled-components'
 
 // import { Header } from '../header/Header'
 // import { Team } from '../team/Team'
 // import { Player } from '../player/Player'
 // import { HamburgerMenu } from '../hamburgerMenu/HamburgerMenu'
-// import { SignIn } from '../signIn/SignIn'
-// import { SignUp } from '../signUp/SignUp'
-import { CustomSelect } from '../selects/Select'
+import { SignIn } from '../signIn/SignIn'
+import { SignUp } from '../signUp/SignUp'
+// import { CustomSelect } from '../selects/Select'
 
 
 const Container = styled.div`
-  width: 100wh;
+  width: 100vh;
   height: 100vh;
 `
 
@@ -21,9 +22,9 @@ const App = () => {
       {/* <HamburgerMenu/> */}
       {/* <Team/> */}
       {/* <Player/> */}
-      {/* <SignIn/>
-      <SignUp/> */}
-      <CustomSelect/>
+      <SignIn/>
+      <SignUp/>
+      {/* <CustomSelect/> */}
     </Container>
   );
 }

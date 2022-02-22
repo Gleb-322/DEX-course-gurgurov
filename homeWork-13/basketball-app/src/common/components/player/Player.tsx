@@ -3,6 +3,49 @@ import { ReactComponent as CreateSVG } from '../../../assets/icons/create.svg'
 import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg'
 import PlayerPNG  from '../../../assets/images/Player.png'
 
+const Player = () => {
+  return (
+    <PlayerItem>
+      <PlayerHeader>
+        <PlayerHeaderText>Players <PlayerHeaderSpan>/</PlayerHeaderSpan> Greg Whittington</PlayerHeaderText>
+        <PlayerHeaderIcons>
+          <CreateSVG/>
+          <DeleteSVG/>
+        </PlayerHeaderIcons>
+      </PlayerHeader>
+      <PlayerWrapper>
+        <LogoDiv>
+          <Img src={PlayerPNG} alt='player'/>
+        </LogoDiv>
+        <PlayerDescr>
+          <PlayerName>Greg Whittington <NumberSpan>#22</NumberSpan></PlayerName>
+          <PlayerBlock>
+            <PlayerModule>
+              <PlayerTitle>Position</PlayerTitle>
+              <PlayerContent><Small>Forward</Small></PlayerContent>
+            </PlayerModule>
+            <PlayerModule>
+              <PlayerTitle>Team</PlayerTitle>
+              <PlayerContent><Small>Denver Nuggets</Small></PlayerContent>
+            </PlayerModule>
+            <PlayerModule>
+              <PlayerTitle>Height</PlayerTitle>
+              <PlayerContent><Small>206 cm</Small></PlayerContent>
+            </PlayerModule>
+            <PlayerModule>
+              <PlayerTitle>Weight</PlayerTitle>
+              <PlayerContent><Small>95 kg</Small></PlayerContent>
+            </PlayerModule>
+            <PlayerModule>
+              <PlayerTitle>Age</PlayerTitle>
+              <PlayerContent><Small>27</Small></PlayerContent>
+            </PlayerModule>
+          </PlayerBlock>
+        </PlayerDescr>
+      </PlayerWrapper>
+    </PlayerItem>
+  )
+}
 
 const PlayerItem = styled.section`
   width: 1140px;
@@ -94,49 +137,5 @@ const PlayerBlock = styled.div`
 `
 const PlayerModule = styled.div``
 const Small = styled.small``
-
-const Player = () => {
-  return (
-    <PlayerItem>
-      <PlayerHeader>
-        <PlayerHeaderText>Players <PlayerHeaderSpan>/</PlayerHeaderSpan> Greg Whittington</PlayerHeaderText>
-        <PlayerHeaderIcons>
-          <CreateSVG/>
-          <DeleteSVG/>
-        </PlayerHeaderIcons>
-      </PlayerHeader>
-      <PlayerWrapper>
-        <LogoDiv>
-          <Img src={PlayerPNG} alt='player'/>
-        </LogoDiv>
-        <PlayerDescr>
-          <PlayerName>Greg Whittington <NumberSpan>#22</NumberSpan></PlayerName>
-          <PlayerBlock>
-            <PlayerModule>
-              <PlayerTitle>Position</PlayerTitle>
-              <PlayerContent><Small>Forward</Small></PlayerContent>
-            </PlayerModule>
-            <PlayerModule>
-              <PlayerTitle>Team</PlayerTitle>
-              <PlayerContent><Small>Denver Nuggets</Small></PlayerContent>
-            </PlayerModule>
-            <PlayerModule>
-              <PlayerTitle>Height</PlayerTitle>
-              <PlayerContent><Small>206 cm</Small></PlayerContent>
-            </PlayerModule>
-            <PlayerModule>
-              <PlayerTitle>Weight</PlayerTitle>
-              <PlayerContent><Small>95 kg</Small></PlayerContent>
-            </PlayerModule>
-            <PlayerModule>
-              <PlayerTitle>Age</PlayerTitle>
-              <PlayerContent><Small>27</Small></PlayerContent>
-            </PlayerModule>
-          </PlayerBlock>
-        </PlayerDescr>
-      </PlayerWrapper>
-    </PlayerItem>
-  )
-}
 
 export {Player}

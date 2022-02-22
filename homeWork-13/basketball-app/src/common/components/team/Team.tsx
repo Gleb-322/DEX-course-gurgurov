@@ -5,6 +5,42 @@ import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg'
 import TeamPNG from '../../../assets/images/Team.png'
 
 
+export const Team = () => {
+  return (
+    <TeamItem>
+      <TeamHeader>
+        <TeamHeaderText>Teams <TeamHeaderSpan>/</TeamHeaderSpan> Denver Nuggets</TeamHeaderText>
+        <TeamHeaderIcons>
+          <CreateSVG />
+          <DeleteSVG />
+        </TeamHeaderIcons>
+      </TeamHeader>
+      <TeamWrapper>
+        <SvgDiv>
+          <Img src={TeamPNG} alt='team'/>
+        </SvgDiv>
+        <TeamDescr>
+          <TeamName>Denver Nuggets</TeamName>
+          <TeamBlock>
+            <TeamModule>
+              <TeamTitle>Year of foundation</TeamTitle>
+              <TeamContent><Small>1976</Small></TeamContent>
+            </TeamModule>
+            <TeamModule>
+              <TeamTitle>Division</TeamTitle>
+              <TeamContent><Small>Northwestern</Small></TeamContent>
+            </TeamModule>
+            <TeamModule>
+              <TeamTitle>Conference</TeamTitle>
+              <TeamContent><Small>Western</Small></TeamContent>
+            </TeamModule>
+          </TeamBlock>
+        </TeamDescr>
+      </TeamWrapper>
+    </TeamItem>
+  )
+}
+
 const TeamItem = styled.section`
   width: 1140px;
 `
@@ -85,41 +121,3 @@ const TeamContent = styled.div`
 const Small = styled.small``
 
 const Img = styled.img``
-
-const Team = () => {
-  return (
-    <TeamItem>
-      <TeamHeader>
-        <TeamHeaderText>Teams <TeamHeaderSpan>/</TeamHeaderSpan> Denver Nuggets</TeamHeaderText>
-        <TeamHeaderIcons>
-          <CreateSVG />
-          <DeleteSVG />
-        </TeamHeaderIcons>
-      </TeamHeader>
-      <TeamWrapper>
-        <SvgDiv>
-          <Img src={TeamPNG} alt='team'/>
-        </SvgDiv>
-        <TeamDescr>
-          <TeamName>Denver Nuggets</TeamName>
-          <TeamBlock>
-            <TeamModule>
-              <TeamTitle>Year of foundation</TeamTitle>
-              <TeamContent><Small>1976</Small></TeamContent>
-            </TeamModule>
-            <TeamModule>
-              <TeamTitle>Division</TeamTitle>
-              <TeamContent><Small>Northwestern</Small></TeamContent>
-            </TeamModule>
-            <TeamModule>
-              <TeamTitle>Conference</TeamTitle>
-              <TeamContent><Small>Western</Small></TeamContent>
-            </TeamModule>
-          </TeamBlock>
-        </TeamDescr>
-      </TeamWrapper>
-    </TeamItem>
-  )
-}
-
-export {Team}

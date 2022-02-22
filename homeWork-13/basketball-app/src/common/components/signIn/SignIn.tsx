@@ -1,45 +1,114 @@
+import { FC, useState, useEffect, useRef} from 'react'
 import styled from 'styled-components'
 import { ReactComponent as SignInSVG} from '../../../assets/images/SignIn.svg'
 import { ReactComponent as CloseEye} from '../../../assets/icons/close_eye.svg'
 import { ReactComponent as OpenEye} from '../../../assets/icons/open_eye.svg'
 
-export const SignIn = () => {
-  return (
-    <Section>
-        <SignBlock>
-            <Form>
-                <Field>
-                    <Div><Legend>Sign In</Legend></Div>
-                    <InputLogin/>
-                    <InputPassword />
-                    {/* <InputWithError/> */}
-                    <Button>Sign In</Button>
-                    <Footer>Not a member yet? <Link href='#'>Sign Up</Link></Footer>
-                </Field>
-            </Form>
-        </SignBlock>
-        <SignImg>
-            <SignInSVG/>
-            {/* <ErrorMessage/> */}
-        </SignImg>
-    </Section>
-  )
+
+export const SignIn: FC = () => {
+    const [inputLogin, setLoginInput] = useState('')
+    const [inputPassword, setPasswordInput] = useState('')
+    const [postForm, setPostForm] = useState(false)
+
+
+    useEffect(() => {
+        if (postForm) {
+            const stateForm = {
+                login: inputLogin,
+                password: inputPassword
+            }
+            const requestOptions = {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json;charset=UTF-8' ,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(stateForm)
+            };
+            fetch('http://dev.trainee.dex-it.ru/api/Auth/SignIn', requestOptions)
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(() => {throw new Error('Ошибка fetch')})
+                
+            setPostForm(!postForm)
+        }
+        
+    },[postForm])
+
+    const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault()
+        setPostForm(!postForm)
+    }
+    const handlerInputLogin = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setLoginInput(e.target.value)
+    }
+    const handlerInputPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setPasswordInput(e.target.value)
+    }
+
+    return (
+        <Section>
+            <SignBlock>
+                <Form onSubmit={handlerSubmit}>
+                    <Field>
+                        <Div><Legend>Sign In</Legend></Div>
+                        <InputLogin 
+                            name={'login'} 
+                            type={'text'} 
+                            value={inputLogin} 
+                            inputHandler={handlerInputLogin}
+                        />
+                        <InputPassword 
+                            name={'password'} 
+                            type={'password'} 
+                            value={inputPassword} 
+                            inputHandler={handlerInputPassword}
+                        />
+                        {/* <InputWithError/> */}
+                        <Button type='submit'>Sign In</Button>
+                        <Footer>Not a member yet? <Link href='#'>Sign Up</Link></Footer>
+                    </Field>
+                </Form>
+            </SignBlock>
+            <SignImg>
+                <SignInSVG/>
+                {/* <ErrorMessage/> */}
+            </SignImg>
+        </Section>
+    )
 }
 
-const InputLogin = () => {
+export interface Iprop {
+    name: string;
+    type: string;
+    value: string;
+    inputHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const InputLogin: FC<Iprop> = ({name, type, value, inputHandler}) => {
     return (
         <Label>
             <LabelText>Login</LabelText>
-            <Input />
+            <Input 
+                name={name} 
+                type={type} 
+                value={value}
+                onChange={inputHandler}
+            />
         </Label>
     )
 }
 
-const InputPassword = () => {
+const InputPassword: FC<Iprop> = ({name, type, value, inputHandler}) => {
     return (
         <Label>
             <LabelText>Password</LabelText>
-            <Input type='password'/>
+            <Input 
+                name={name} 
+                type={type} 
+                value={value} 
+                onChange={inputHandler}
+            />
             <DivImg><CloseEye/></DivImg>
         </Label>
     )
@@ -184,6 +253,7 @@ const DivImg = styled.div`
 `
 
 const Button = styled.button`
+    cursor: pointer;
     width: 365px;
     height: 40px;
     background: #E4163A;
@@ -225,5 +295,8 @@ const Link = styled.a`
     line-height: 19px;
     text-decoration-line: underline;
     color: #E4163A;
+    :hover {
+        color: #FF5761;
+    }
 `
 const Div = styled.div``
