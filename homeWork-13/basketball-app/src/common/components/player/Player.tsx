@@ -3,7 +3,7 @@ import { ReactComponent as CreateSVG } from '../../../assets/icons/create.svg'
 import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg'
 import PlayerPNG  from '../../../assets/images/Player.png'
 
-const Player = () => {
+export const Player = () => {
   return (
     <PlayerItem>
       <PlayerHeader>
@@ -105,6 +105,7 @@ const PlayerWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  border-radius: 0px 0px 10px 10px;
 `
 const LogoDiv = styled.span`
   width: 531px;
@@ -138,4 +139,3 @@ const PlayerBlock = styled.div`
 const PlayerModule = styled.div``
 const Small = styled.small``
 
-export {Player}

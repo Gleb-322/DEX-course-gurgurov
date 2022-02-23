@@ -2,6 +2,19 @@ import styled from "styled-components"
 import { ReactComponent as LogoSVG} from '../../../assets/images/logo.svg'
 import { ReactComponent as ProfileSVG} from '../../../assets/icons/profile.svg'
 
+export const Header = () => {
+  return (
+    <HeaderDiv>
+        <SvgDiv><LogoSVG/></SvgDiv>
+        <HeaderWrap>
+          <User>{localStorage.getItem("userName")}</User>
+            <ProfileBlock>
+              <ProfileSVG/>
+            </ProfileBlock>
+        </HeaderWrap>
+    </HeaderDiv>
+  )
+}
 
 const HeaderDiv = styled.header`
   display: flex;
@@ -34,19 +47,3 @@ const HeaderWrap = styled.div`
   width: 125px;
 `
 const SvgDiv = styled.div``
-
-const Header = () => {
-  return (
-    <HeaderDiv>
-        <SvgDiv><LogoSVG/></SvgDiv>
-        <HeaderWrap>
-          <User>John Smith</User>
-            <ProfileBlock>
-              <ProfileSVG/>
-            </ProfileBlock>
-        </HeaderWrap>
-    </HeaderDiv>
-  )
-}
-
-export {Header}

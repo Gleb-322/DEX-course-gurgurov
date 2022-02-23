@@ -1,9 +1,20 @@
 import styled from "styled-components"
 import { ReactComponent as SearchSVG } from '../../../assets/icons/search.svg'
 
+
+export const InputSearch = () => {
+  return (
+    <SearchDiv>
+        <Input placeholder='Search...'/>
+        <Div>
+          <SearchSVG />
+        </Div>
+    </SearchDiv>
+  )
+}
+
 const Input = styled.input`
-  margin-top: 40px;
-  width: 366px;
+  width: 364px;
   height: 40px;
   font-weight: 500;
   font-size: 14px;
@@ -21,18 +32,11 @@ const Input = styled.input`
     color: #707070;
   }
 `
-const SearchDiv = styled.span`
-  margin-top: 30px;
+const SearchDiv = styled.div`
   position: relative;
 `
-
-const InputSearch = () => {
-  return (
-    <SearchDiv>
-        <Input placeholder='Search...'/>
-        <SearchSVG />
-    </SearchDiv>
-  )
-}
-
-export {InputSearch}
+const Div = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+`
