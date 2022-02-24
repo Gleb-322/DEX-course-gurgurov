@@ -1,4 +1,22 @@
+import { FC } from 'react'
 import styled from "styled-components"
+
+interface Iprop {
+  redirectToAddPage: () => void;
+
+}
+
+export const ButtonAdd: FC<Iprop> = ({redirectToAddPage}) => {
+  return (
+    <Block>
+        <Button
+          onClick={redirectToAddPage}
+        >
+          Add
+        </Button>
+    </Block>
+  )
+}
 
 const Button = styled.button`
   display: flex;
@@ -51,15 +69,3 @@ const Button = styled.button`
   }
 `
 const Block = styled.div``
-
-const ButtonAdd = () => {
-  return (
-    <Block>
-        <Button >
-          Add
-        </Button>
-    </Block>
-  )
-}
-
-export {ButtonAdd}

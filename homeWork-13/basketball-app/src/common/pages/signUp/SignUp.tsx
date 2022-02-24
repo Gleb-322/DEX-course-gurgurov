@@ -5,6 +5,7 @@ import { ReactComponent as SignUpSVG} from '../../../assets/images/SignUp.svg'
 import { ReactComponent as CloseEyeSVG} from '../../../assets/icons/close_eye.svg'
 import { InputCheckBox } from '../../components/inputs/InputCheckbox'
 import { Iprop } from '../signIn/SignIn'
+import { useSignUp } from '../../../api/auth/AuthSignUpPost'
 
 
 export const SignUp: FC = () => {
@@ -14,6 +15,7 @@ export const SignUp: FC = () => {
     const [inputPasswordAgain, setPasswordAgainInput] = useState('')
     const [postForm, setPostForm] = useState(false)
     const redirect = useNavigate()
+    const {postSignUp} = useSignUp()
 
     useEffect(() => {
         if (postForm) {
@@ -22,33 +24,21 @@ export const SignUp: FC = () => {
                 login: inputLogin,
                 password: inputPassword
             }
-            const requestOptions = {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'accept': 'text/plain'
-                },
-                body: JSON.stringify(stateForm)
-            };
-            fetch('http://dev.trainee.dex-it.ru/api/Auth/SignUp', requestOptions)
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(() => {throw new Error('Ошибка fetch')})
-
+            postSignUp(JSON.stringify(stateForm))
+                .then(data => {
+                    localStorage.setItem("token", data.token);
+                    redirect("/teams")
+                })
             setPostForm(!postForm)
+            
         }
+        
     },[postForm])
 
     const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
         setPostForm(!postForm)
-        localStorage.setItem("userName", inputName);
-        localStorage.setItem("login", inputName);
-        localStorage.setItem("password", inputPassword);
-        if ( localStorage.getItem("userName") === "" && localStorage.getItem("login") === "" && localStorage.getItem("password") === "") {
-            redirect("/signUp");
-        }
-        redirect("/signIn")
+            console.log(postForm)
     }
     const handlerInputName = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setNameInput(e.target.value)
@@ -95,7 +85,7 @@ export const SignUp: FC = () => {
                         />
                         <InputCheckBox/>
                         <Button type={'submit'}>Sign Up</Button>
-                        <Footer>Not a member yet? <Link to='/signIn'>Sign Ip</Link></Footer>
+                        <Footer>Not a member yet? <Link to='/signIn'>Sign In</Link></Footer>
                     </Field>
                 </Form>
             </SignBlock>

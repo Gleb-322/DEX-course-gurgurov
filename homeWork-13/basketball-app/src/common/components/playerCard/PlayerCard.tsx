@@ -13,7 +13,8 @@ export const PlayerCard = () => {
     )
 }
 
-const Container = styled.section`
+const Container = styled.div`
+    cursor: pointer;
     display: grid;
     grid-template-rows: 280px 100px;
     align-items: flex-end;

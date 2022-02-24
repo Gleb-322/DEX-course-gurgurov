@@ -139,7 +139,7 @@ const TeamHeaderSpan = styled.span`
 const TeamWrapper = styled.div`
   height: 520px;
   box-sizing: border-box;
-  padding: 72px 229px 48px 73px;
+  padding: 72px 229px 41px 73px;
   background: #FFFFFF;
   border-radius: 0px 0px 10px 10px;
   display: grid;
@@ -187,13 +187,23 @@ const Input = styled.input`
 `
 
 const AddImgBlock = styled.div`
-    display: grid;
-    grid-template-rows: 276px;
+    cursor: pointer;
+    background: #9C9C9C;
+    opacity: 0.5;
+    border-radius: 10px;
+    height: 261px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 const TeamForm = styled.form`
     display: grid;
-    grid-template-columns: repeat(2, 171px);
     grid-template-rows: repeat(4, 92px) 40px;
+    align-items: center;
 `
-const ButtonsBlock = styled.div``
+const ButtonsBlock = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 171px);
+    column-gap: 24px;
+`
 

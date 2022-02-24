@@ -1,7 +1,9 @@
+import { FC } from 'react'
 import styled from 'styled-components'
 import TeamLogo from '../../../assets/images/teamCardLogo.png'
 
-export const TeamCard = () => {
+export const TeamCard: FC = () => {
+    
     return (
         <Container>
             <DivImg>
@@ -15,7 +17,8 @@ export const TeamCard = () => {
     )
 }
 
-const Container = styled.section`
+const Container = styled.div`
+    cursor: pointer;
     display: grid;
     grid-template-rows: 280px 100px;
     align-items: center;

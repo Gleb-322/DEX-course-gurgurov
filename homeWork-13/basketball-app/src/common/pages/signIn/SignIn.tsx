@@ -4,12 +4,14 @@ import { ReactComponent as SignInSVG} from '../../../assets/images/SignIn.svg'
 import { ReactComponent as CloseEye} from '../../../assets/icons/close_eye.svg'
 import { ReactComponent as OpenEye} from '../../../assets/icons/open_eye.svg'
 import { Link, useNavigate} from 'react-router-dom'
+import { useSignIn } from '../../../api/auth/AuthSignInPost'
 
 export const SignIn: FC = () => {
     const [inputLogin, setLoginInput] = useState('')
     const [inputPassword, setPasswordInput] = useState('')
     const [postForm, setPostForm] = useState(false)
     const redirect = useNavigate()
+    const {postSignIn} = useSignIn()
 
 
     useEffect(() => {
@@ -18,19 +20,12 @@ export const SignIn: FC = () => {
                 login: inputLogin,
                 password: inputPassword
             }
-            const requestOptions = {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json;charset=UTF-8' ,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(stateForm)
-            };
-            fetch('http://dev.trainee.dex-it.ru/api/Auth/SignIn', requestOptions)
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(() => {throw new Error('Ошибка fetch')})
-                
+            postSignIn(JSON.stringify(stateForm))
+                .then(data => {
+                    localStorage.setItem("token", data.token);
+                    redirect("/teams")
+                })
+
             setPostForm(!postForm)
         }
         
@@ -39,12 +34,6 @@ export const SignIn: FC = () => {
     const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
         setPostForm(!postForm)
-        // localStorage.setItem("login", inputLogin);
-        // localStorage.setItem("password", inputPassword);
-        // if (localStorage.getItem("login") === "" && localStorage.getItem("password") === "") {
-        //     redirect("/signIn");
-        // }
-        redirect("/teams")
     }
     const handlerInputLogin = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setLoginInput(e.target.value)

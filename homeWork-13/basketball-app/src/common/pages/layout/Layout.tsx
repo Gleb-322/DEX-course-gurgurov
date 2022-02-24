@@ -1,11 +1,8 @@
-// import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
 import { Header } from '../../components/header/Header'
 import { SideBar } from '../../components/sideBar/SideBar'
-// import { CardTeams } from '../cardTeams/CardTeams'
-// import { CardPlayers } from '../cardPlayers/CardPlayers'
-// import { AddPlayers } from '../addPlayers/AddPlayers'
-import { AddTeams } from '../addTeams/AddTeams'
+
 
 export const Layout = () => {
   return (
@@ -14,11 +11,7 @@ export const Layout = () => {
         <Main>
           <SideBar />
           <Content>
-            {/* <Outlet/> */}
-            {/* <CardTeams/> */}
-            {/* <CardPlayers /> */}
-            {/* <AddPlayers/> */}
-            <AddTeams/>
+            <Outlet/>
           </Content>
         </Main>
         
