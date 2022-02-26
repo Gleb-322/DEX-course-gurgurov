@@ -10,7 +10,7 @@ export const ButtonAdd: FC<Iprop> = ({redirectToAddPage}) => {
   return (
     <Block>
         <Button
-          onClick={redirectToAddPage}
+          onClick={() => redirectToAddPage()}
         >
           Add
         </Button>

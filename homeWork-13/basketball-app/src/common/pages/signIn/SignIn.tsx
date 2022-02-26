@@ -1,30 +1,41 @@
 import { FC, useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { ReactComponent as SignInSVG} from '../../../assets/images/SignIn.svg'
-import { ReactComponent as CloseEye} from '../../../assets/icons/close_eye.svg'
-import { ReactComponent as OpenEye} from '../../../assets/icons/open_eye.svg'
+
+
+import { Input } from '../../ui/inputs/Input'
 import { Link, useNavigate} from 'react-router-dom'
-import { useSignIn } from '../../../api/auth/AuthSignInPost'
+import { post } from '../../../api/BaseRequest'
 
 export const SignIn: FC = () => {
-    const [inputLogin, setLoginInput] = useState('')
-    const [inputPassword, setPasswordInput] = useState('')
+    const [inputLogin, setInputLogin] = useState('')
+    const [inputPassword, setInputPassword] = useState('')
+    const [error, showError] = useState(false)
+    const [errorInput, showErrorInput] = useState(false)
+    const [stateForm, setStateForm] = useState({
+        login: '',
+        password: ''
+    })
+    // const [inputLogin, setLoginInput] = useState('')
+    // const [inputPassword, setPasswordInput] = useState('')
+
+    const [inputType, setInputType] = useState('text')
+    const [token, setToken] = useState('')
+    
     const [postForm, setPostForm] = useState(false)
     const redirect = useNavigate()
-    const {postSignIn} = useSignIn()
-
 
     useEffect(() => {
         if (postForm) {
-            const stateForm = {
-                login: inputLogin,
-                password: inputPassword
-            }
-            postSignIn(JSON.stringify(stateForm))
+            
+            post(`/api/Auth/SignIn`, JSON.stringify(stateForm), '')
                 .then(data => {
-                    localStorage.setItem("token", data.token);
+                    
+                    setToken(data.token)
+                    localStorage.setItem("token", JSON.stringify(token));
                     redirect("/teams")
                 })
+                // .catch(() => showError(true))
 
             setPostForm(!postForm)
         }
@@ -34,13 +45,35 @@ export const SignIn: FC = () => {
     const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
         setPostForm(!postForm)
+        setInputLogin('')
+        setInputPassword('')
     }
-    const handlerInputLogin = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setLoginInput(e.target.value)
 
-    }
-    const handlerInputPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setPasswordInput(e.target.value)
+    const handlerInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        
+        if (e.target.name === 'signInLogin') {
+            setInputLogin(e.target.value)
+            setInputType('text')
+            if (e.target.value.length === 0) {
+                showErrorInput(true)
+            }
+            setStateForm((state) => ({
+                ...state,
+                login: inputLogin
+            }))
+        } 
+        if (e.target.name === 'signInPassword' || e.target.value.length === 0) {
+            setInputPassword(e.target.value)
+            setInputType('password')
+            if (e.target.value.length < 3) {
+                showErrorInput(true)
+            }
+            setStateForm((state) => ({
+                ...state,
+                password: inputPassword
+            }))
+        } 
+        
     }
 
     return (
@@ -49,19 +82,22 @@ export const SignIn: FC = () => {
                 <Form onSubmit={handlerSubmit}>
                     <Field>
                         <Div><Legend>Sign In</Legend></Div>
-                        <InputLogin 
-                            name={'login'} 
-                            type={'text'} 
+                        <Input 
+                            label={'Login'}
+                            name={'signInLogin'} 
+                            type={inputType} 
                             value={inputLogin} 
-                            inputHandler={handlerInputLogin}
+                            onChangeInput={handlerInput}
+                            errorMessage={errorInput}
                         />
-                        <InputPassword 
-                            name={'password'} 
-                            type={'password'} 
+                        <Input 
+                            label={'Password'}
+                            name={'signInPassword'} 
+                            type={inputType} 
                             value={inputPassword} 
-                            inputHandler={handlerInputPassword}
+                            onChangeInput={handlerInput}
+                            errorMessage={errorInput}
                         />
-                        {/* <InputWithError/> */}
                         <Button type='submit'>Sign In</Button>
                         <Footer>Not a member yet? <Link to='/signUp'>Sign Up</Link></Footer>
                     </Field>
@@ -69,86 +105,12 @@ export const SignIn: FC = () => {
             </SignBlock>
             <SignImg>
                 <SignInSVG/>
-                {/* <ErrorMessage/> */}
+                { error ? <ErrorMessage/> : null}
             </SignImg>
         </Section>
     )
 }
 
-export interface Iprop {
-    name: string;
-    type: string;
-    value: string;
-    inputHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-const InputLogin: FC<Iprop> = ({name, type, value, inputHandler}) => {
-    return (
-        <Label>
-            <LabelText>Login</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value}
-                onChange={inputHandler}
-            />
-        </Label>
-    )
-}
-
-const InputPassword: FC<Iprop> = ({name, type, value, inputHandler}) => {
-    return (
-        <Label>
-            <LabelText>Password</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value} 
-                onChange={inputHandler}
-            />
-            <DivImg><CloseEye/></DivImg>
-        </Label>
-    )
-}
-
-
-const InputWithError = () => {
-  return (
-    <Label>
-        <LabelText>Password</LabelText>
-        <InputError />
-        <DivImg><OpenEye/></DivImg>
-        <ErMessage>Wrong password. Please, try again.</ErMessage>
-    </Label>
-  )
-}
-
-const ErMessage = styled.span`
-    position: absolute;
-    top: 44px;
-    left: 0;
-    z-index: 10;
-    font-family: 'Avenir';
-    font-weight: 500;
-    font-size: 12px;
-    color: #FF768E;
-`
-const InputError = styled.input`
-    box-sizing: border-box;
-    position: relative;
-    width: 366px;
-    height: 40px;
-    background: #F6F6F6;
-    border-radius: 4px;
-    z-index: 5;
-    border: none;
-    padding: 8px 12px;
-    font-family: 'Avenir';
-    font-weight: 500;
-    font-size: 14px;
-    color: #303030;
-    outline: 0;
-`
 
 const ErrorMessage = () => {
     return (
@@ -204,50 +166,8 @@ const Legend = styled.legend`
     line-height: 49px;
     color: #344472;
 `
-const Input = styled.input`
-    box-sizing: border-box;
-    position: relative;
-    width: 366px;
-    height: 40px;
-    background: #F6F6F6;
-    border-radius: 4px;
-    z-index: 5;
-    font-family: 'Avenir';
-    border: none;
-    padding: 8px 12px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #303030;
-    :hover {
-    background: #D1D1D1;
-    }
-    :focus {
-    box-shadow: 0px 0px 5px #D9D9D9;
-    outline: 0;
-    }
-    :disabled {
-    color: #D1D1D1;
-    }
-`
-const Label = styled.label`
-  position: relative;
-`
-const LabelText = styled.span`
-    position: absolute;
-    top: -20px;
-    left: 0;
-    z-index: 10;
-    font-family: 'Avenir';
-    font-weight: 500;
-    font-size: 14px;
-    color: #707070;
-`
-const DivImg = styled.div`
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 10;
-`
+
+
 
 const Button = styled.button`
     cursor: pointer;

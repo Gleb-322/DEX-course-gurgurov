@@ -1,27 +1,21 @@
 import { FC,  useState} from 'react'
 import styled from "styled-components"
-import { Iprop } from "../signIn/SignIn"
 import { ReactComponent as AddSVG } from '../../../assets/icons/add_a_photo.svg'
-import { ButtonCancel, ButtonSave } from '../../components/buttons/ButtonCancelSave'
+import { ButtonCancel, ButtonSave } from '../../ui/buttons/ButtonCancelSave'
+import { Input } from '../../ui/inputs/Input'
 
 export const AddPlayers: FC = () => {
-    const [inputAddName, setAddNameInput] = useState('')
-    const [inputAddDivision, setAddDivisionInput] = useState('')
-    const [inputAddConference, setAddConferenceInput] = useState('')
-    const [inputAddYear, setAddYearInput] = useState('')
+    const [input, setInput] = useState('')
+    // const [inputAddName, setAddNameInput] = useState('')
+    // const [inputAddDivision, setAddDivisionInput] = useState('')
+    // const [inputAddConference, setAddConferenceInput] = useState('')
+    // const [inputAddYear, setAddYearInput] = useState('')
+    const [errorInput, showErrorInput] = useState(false)
 
-    const handlerInputAddName = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setAddNameInput(e.target.value)
+    const handlerInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setInput(e.target.value)
     }
-    const handlerInputAddDivision = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setAddDivisionInput(e.target.value)
-    }
-    const handlerInputAddConference = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setAddConferenceInput(e.target.value)
-    }
-    const handlerInputAddYear = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setAddYearInput(e.target.value)
-    } 
+
 
     return (
         <Container>
@@ -31,35 +25,45 @@ export const AddPlayers: FC = () => {
                     <AddSVG/>
                 </AddImgBlock>
                 <PlayerForm>
-                    <InputAddName 
-                        name={'addName'} 
+                    <Input 
+                        label={'Name'}
+                        name={'addNamePlayer'} 
                         type={'text'}
-                        value={inputAddName}
-                        inputHandler={handlerInputAddName}
+                        value={input}
+                        onChangeInput={handlerInput}
+                        errorMessage={errorInput}
                     />
-                    <InputAddDivision 
-                        name={'addDivision'} 
+                    <Input 
+                        label={'Position'}
+                        name={'addDivisionPlayer'} 
                         type={'text'}
-                        value={inputAddDivision}
-                        inputHandler={handlerInputAddDivision}
+                        value={input}
+                        onChangeInput={handlerInput}
+                        errorMessage={errorInput}
                     />
-                    <InputAddConference 
-                        name={'addConference'} 
+                    <Input 
+                        label={'Conference'}
+                        name={'addConferencePlayer'} 
                         type={'text'}
-                        value={inputAddConference}
-                        inputHandler={handlerInputAddConference}
+                        value={input}
+                        onChangeInput={handlerInput}
+                        errorMessage={errorInput}
                     />
-                    <InputAddYear 
-                        name={'addYear'} 
+                    <Input 
+                        label={'Conference'}
+                        name={'addYearPlayer'} 
                         type={'text'}
-                        value={inputAddYear}
-                        inputHandler={handlerInputAddYear}
+                        value={input}
+                        onChangeInput={handlerInput}
+                        errorMessage={errorInput}
                     />
-                    <InputAddYear 
-                        name={'addYear'} 
+                    <Input 
+                        label={'Conference'}
+                        name={'addYearPlayer'} 
                         type={'text'}
-                        value={inputAddYear}
-                        inputHandler={handlerInputAddYear}
+                        value={input}
+                        onChangeInput={handlerInput}
+                        errorMessage={errorInput}
                     />
                     <ButtonsBlock>
                         <ButtonCancel/>
@@ -71,58 +75,6 @@ export const AddPlayers: FC = () => {
     )
 }
 
-const InputAddName: FC<Iprop> = ({name, type, inputHandler, value}) => {
-    return (
-        <Label>
-            <LabelText>Name</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value}
-                onChange={inputHandler}
-            />
-        </Label>
-    )
-}
-const InputAddDivision: FC<Iprop> = ({name, type, inputHandler, value}) => {
-    return (
-        <Label>
-            <LabelText>Division</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value}
-                onChange={inputHandler}
-            />
-        </Label>
-    )
-}
-const InputAddConference: FC<Iprop> = ({name, type, inputHandler, value}) => {
-    return (
-        <Label>
-            <LabelText>Conference</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value}
-                onChange={inputHandler}
-            />
-        </Label>
-    )
-}
-const InputAddYear: FC<Iprop> = ({name, type, inputHandler, value}) => {
-    return (
-        <Label>
-            <LabelText>Year of foundation</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value}
-                onChange={inputHandler}
-            />
-        </Label>
-    )
-}
 
 const Container = styled.section`
     box-sizing: border-box;
@@ -152,46 +104,6 @@ const PlayerWrapper = styled.div`
   grid-template-columns: 336px 366px;
   column-gap: 136px;
 `
-const Label = styled.label`
-  position: relative;
-`
-const LabelText = styled.span`
-    position: absolute;
-    top: -20px;
-    left: 0;
-    z-index: 10;
-    font-family: 'Avenir';
-    font-weight: 500;
-    font-size: 14px;
-    color: #707070;
-`
-
-const Input = styled.input`
-    box-sizing: border-box;
-    position: relative;
-    width: 366px;
-    height: 40px;
-    background: #F6F6F6;
-    border-radius: 4px;
-    z-index: 5;
-    font-family: 'Avenir';
-    border: none;
-    padding: 8px 12px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #303030;
-    :hover {
-    background: #D1D1D1;
-    }
-    :focus {
-    box-shadow: 0px 0px 5px #D9D9D9;
-    outline: 0;
-    }
-    :disabled {
-    color: #D1D1D1;
-    }
-`
-
 const AddImgBlock = styled.div`
     cursor: pointer;
     background: #9C9C9C;

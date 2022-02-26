@@ -3,26 +3,25 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { TeamCard } from '../../components/teamCard/TeamCard'
 // import { EmptySearchTeam } from '../emptySearchTeam/EmptySearchTeam'
-import { InputSearch } from '../../components/inputs/InputSearch'
-import { ButtonAdd } from '../../components/buttons/ButtonAdd'
-import { useTeams } from '../../../api/teams/RequestsTeams'
+import { InputSearch } from '../../ui/inputs/InputSearch'
+import { ButtonAdd } from '../../ui/buttons/ButtonAdd'
+import { get } from '../../../api/BaseRequest'
 
 export const CardTeams: FC = () => {
     const redirectAddTeam = useNavigate()
     const [teams, setTeams] = useState([])
-    const {getPagTeams, getTeams} = useTeams()
 
     useEffect(() => {
-        let token = localStorage.getItem("token")
-        if (token) {
-            getPagTeams(JSON.stringify(token))
-                .then(data => setTeams(data))
-        }
-        console.log(teams)
+        get(`/api/Team/GetTeams`, '')
+            .then(data => {
+                console.log(data)
+                setTeams(data)}
+            )
+        
     },[])
 
     const addTeamRedirect = () => {
-        redirectAddTeam(`addTeam`)
+        redirectAddTeam(`/addTeam`)
     }
     return (
         <Container>

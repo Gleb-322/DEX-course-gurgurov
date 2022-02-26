@@ -4,6 +4,7 @@ import { Header } from '../../components/header/Header'
 import { SideBar } from '../../components/sideBar/SideBar'
 
 
+
 export const Layout = () => {
   return (
     <Container>
@@ -12,6 +13,7 @@ export const Layout = () => {
           <SideBar />
           <Content>
             <Outlet/>
+            
           </Content>
         </Main>
         
@@ -22,8 +24,6 @@ export const Layout = () => {
 const Container = styled.section`
   width: 1440px;
   height: 1072px;
-  display: block;
-  margin: 0 auto;
 `
 const Main = styled.section` 
   height: 992px;

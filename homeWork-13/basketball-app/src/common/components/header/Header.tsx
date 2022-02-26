@@ -7,7 +7,7 @@ export const Header = () => {
     <HeaderDiv>
         <SvgDiv><LogoSVG/></SvgDiv>
         <HeaderWrap>
-          <User>{localStorage.getItem("userName")}</User>
+          <User>Jonh</User>
             <ProfileBlock>
               <ProfileSVG/>
             </ProfileBlock>

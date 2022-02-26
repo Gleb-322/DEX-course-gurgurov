@@ -2,55 +2,109 @@ import { FC,  useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { ReactComponent as SignUpSVG} from '../../../assets/images/SignUp.svg'
-import { ReactComponent as CloseEyeSVG} from '../../../assets/icons/close_eye.svg'
-import { InputCheckBox } from '../../components/inputs/InputCheckbox'
-import { Iprop } from '../signIn/SignIn'
-import { useSignUp } from '../../../api/auth/AuthSignUpPost'
+import { InputCheckBox } from '../../ui/inputs/InputCheckbox'
+import { Input } from '../../ui/inputs/Input'
+import { post } from '../../../api/BaseRequest'
 
 
 export const SignUp: FC = () => {
-    const [inputName, setNameInput] = useState('')
-    const [inputLogin, setLoginInput] = useState('')
-    const [inputPassword, setPasswordInput] = useState('')
-    const [inputPasswordAgain, setPasswordAgainInput] = useState('')
+    const [inputName, setInputName] = useState('')
+    const [inputNameError, setInputNameError] = useState(false)
+
+    const [inputLogin, setInputLogin] = useState('')
+    const [inputLoginError, setInputLoginError] = useState(false)
+
+    const [inputPassword, setInputPassword] = useState('')
+    const [inputPasswordAgain, setInputPasswordAgain] = useState('')
+    const [inputPasswordError, setInputPasswordError] = useState(false) 
+
     const [postForm, setPostForm] = useState(false)
+    // const [ckeckValid, setCheckValid] = useState(false)
+    const [validForm, setValidForm] = useState(false)
+
+    const [token, setToken] = useState('')
+
+    const [inputType, setInputType] = useState('text')
+
+    const [stateForm, setStateForm] = useState({
+        name: '',
+        login: '',
+        password: ''
+    })
+    
     const redirect = useNavigate()
-    const {postSignUp} = useSignUp()
 
     useEffect(() => {
         if (postForm) {
-            const stateForm = {
-                userName: inputName,
-                login: inputLogin,
-                password: inputPassword
-            }
-            postSignUp(JSON.stringify(stateForm))
+            post(`/api/Auth/SignUp` ,JSON.stringify(stateForm), '')
                 .then(data => {
-                    localStorage.setItem("token", data.token);
+                    setToken(data.token)
+                    console.log(token)
+                    localStorage.setItem("token", JSON.stringify(token))
                     redirect("/teams")
                 })
             setPostForm(!postForm)
-            
         }
         
     },[postForm])
 
+    useEffect(() => {
+            if (inputNameError || inputLoginError || inputPasswordError) {
+                setValidForm(false)
+    
+            } else {
+                setValidForm(true)
+                
+            }
+        
+    },[inputNameError, inputLoginError, inputPasswordError])
+
     const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
         setPostForm(!postForm)
-            console.log(postForm)
+        if (inputName.length === 0) {
+            setInputNameError(true)
+        }
+        if (inputLogin.length === 0) {
+            setInputLoginError(true)
+        }
+        if (inputPassword.length < 3 || inputPassword.length === 0) {
+            setInputPasswordError(true)
+        }
+        if (inputPasswordAgain !== inputPassword) {
+            setInputPasswordError(true)
+        } 
+        if (!inputNameError && !inputLoginError && !inputPasswordError) {
+            setStateForm((state) => ({
+                ...state,
+                name: inputName,
+                login: inputLogin,
+                password: inputPassword
+            }))
+        }
     }
-    const handlerInputName = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setNameInput(e.target.value)
-    }
-    const handlerInputLogin = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setLoginInput(e.target.value)
-    }
-    const handlerInputPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setPasswordInput(e.target.value)
-    }
-    const handlerInputPasswordAgain = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setPasswordAgainInput(e.target.value)
+    const handlerInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const name = e.target.name
+        switch (name)  {
+            case 'SignUpName':
+                    setInputName(e.target.value)
+                    setInputType('text')
+                break
+            case 'SignUpLogin':
+                    setInputLogin(e.target.value)
+                    setInputType('text')
+                break
+            case 'SignUpPassword':
+                
+                    setInputPassword(e.target.value)
+                    setInputType('password')
+                break
+            case 'SignUpPasswordAgain':
+                    setInputPasswordAgain(e.target.value)
+                    setInputType('password')
+                break
+        }
+
     }
 
     return (
@@ -59,32 +113,40 @@ export const SignUp: FC = () => {
                 <Form onSubmit={handlerSubmit}>
                     <Field>
                         <Div><Legend>Sign Up</Legend></Div>
-                        <InputName 
-                            name={'name'} 
-                            type={'text'}
+                        <Input
+                            label={'Name'} 
+                            name={'SignUpName'}
+                            type={inputType}
                             value={inputName}
-                            inputHandler={handlerInputName}
+                            onChangeInput={handlerInput}
+                            errorMessage={inputNameError}
                         />
-                        <InputLogin
-                            name={'login'} 
-                            type={'text'}
+                        <Input
+                            label={'Login'} 
+                            name={'SignUpLogin'}
+                            type={inputType}
                             value={inputLogin}
-                            inputHandler={handlerInputLogin}
+                            onChangeInput={handlerInput}
+                            errorMessage={inputLoginError}
                         />
-                        <InputPassword 
-                            name={'password'} 
-                            type={'password'}
+                        <Input
+                            label={'Password'} 
+                            name={'SignUpPassword'} 
+                            type={inputType}
                             value={inputPassword}
-                            inputHandler={handlerInputPassword}
+                            onChangeInput={handlerInput}
+                            errorMessage={inputPasswordError}
                         />
-                        <InputPasswordAgain 
-                            name={'passwordAgain'} 
-                            type={'password'}
+                        <Input
+                            label={'Enter your password again'}
+                            name={'SignUpPasswordAgain'} 
+                            type={inputType}
                             value={inputPasswordAgain}
-                            inputHandler={handlerInputPasswordAgain}
+                            onChangeInput={handlerInput}
+                            errorMessage={inputPasswordError}
                         />
                         <InputCheckBox/>
-                        <Button type={'submit'}>Sign Up</Button>
+                        <Button disabled={!validForm} type={'submit'}>Sign Up</Button>
                         <Footer>Not a member yet? <Link to='/signIn'>Sign In</Link></Footer>
                     </Field>
                 </Form>
@@ -96,66 +158,6 @@ export const SignUp: FC = () => {
     )
 }
 
-
-const InputName: FC<Iprop> = ({name, type, value, inputHandler}) => {
-    return (
-        <Label>
-            <LabelText>Name</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value} 
-                onChange={inputHandler}
-            />
-        </Label>
-    )
-}
-
-const InputLogin: FC<Iprop> = ({name, type, value, inputHandler}) => {
-    return (
-        <Label>
-            <LabelText>Login</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value} 
-                onChange={inputHandler}
-            />
-        </Label>
-    )
-}
-
-
-
-const InputPassword: FC<Iprop> = ({name, type, value, inputHandler}) => {
-    return (
-        <Label>
-            <LabelText>Password</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value} 
-                onChange={inputHandler}
-            />
-            <DivImg><CloseEyeSVG/></DivImg>
-        </Label>
-    )
-}
-
-const InputPasswordAgain: FC<Iprop> = ({name, type, value, inputHandler}) => {
-    return (
-        <Label>
-            <LabelText>Enter your password again</LabelText>
-            <Input 
-                name={name} 
-                type={type} 
-                value={value} 
-                onChange={inputHandler}
-            />
-            <DivImg><CloseEyeSVG/></DivImg>
-        </Label>
-    )
-}
 
 const Section = styled.section`
     position: relative;
@@ -184,50 +186,6 @@ const Legend = styled.legend`
     font-size: 36px;
     line-height: 49px;
     color: #344472;
-`
-const Input = styled.input`
-    box-sizing: border-box;
-    position: relative;
-    width: 366px;
-    height: 40px;
-    background: #F6F6F6;
-    border-radius: 4px;
-    z-index: 5;
-    font-family: 'Avenir';
-    border: none;
-    padding: 8px 12px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #303030;
-    :hover {
-    background: #D1D1D1;
-    }
-    :focus {
-    box-shadow: 0px 0px 5px #D9D9D9;
-    outline: 0;
-    }
-    :disabled {
-    color: #D1D1D1;
-    }
-`
-const Label = styled.label`
-  position: relative;
-`
-const LabelText = styled.span`
-    position: absolute;
-    top: -20px;
-    left: 0;
-    z-index: 10;
-    font-family: 'Avenir';
-    font-weight: 500;
-    font-size: 14px;
-    color: #707070;
-`
-const DivImg = styled.div`
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 10;
 `
 
 const Button = styled.button`
