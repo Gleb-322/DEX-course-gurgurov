@@ -1,12 +1,9 @@
 import styled from "styled-components"
+import './sidebar.css'
 import { NavLink, useNavigate } from "react-router-dom" 
 import { ReactComponent as LayoutTeamSVG } from '../../../assets/icons/layout_teams.svg'
 import { ReactComponent as LayoutPlayerSVG } from '../../../assets/icons/layout_players.svg'
 import { ReactComponent as LayoutLogOutSVG } from '../../../assets/icons/layout_out.svg'
-
-
-
-// className={({ isActive }) => (isActive ? 'active' : 'inactive')}
 
 export const SideBar = () => {
 
@@ -20,23 +17,23 @@ export const SideBar = () => {
     <Menu>
       <Header>
         <Block>
-          <NavLink to='/teams' >
-            <LayoutTeamSVG />
-            <TextTeams>Teams</TextTeams>
+          <NavLink to='/teams' className={({isActive}) => isActive ? 'active' : ''}>
+            <div ><LayoutTeamSVG /></div>
+            <div>Teams</div>
           </NavLink>
         </Block>
         <Block>
-          <NavLink to='/players' >
-            <LayoutPlayerSVG />
-            <TextPlayers>Players</TextPlayers>
+          <NavLink to='/players' className={({isActive}) => isActive ? 'active' : ''}>
+            <div><LayoutPlayerSVG /></div>
+            <div>Players</div>
           </NavLink>
         </Block>
       </Header>
       <Footer>
-        <div onClick={handlerSingOut}>
+        <FooterDiv onClick={handlerSingOut}>
           <LayoutLogOutSVG/>
           <FooterText>Sign out</FooterText>
-        </div>
+        </FooterDiv>
       </Footer>
     </Menu>
   )
@@ -65,18 +62,18 @@ const Block = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const TextTeams = styled.div`
-  font-family: 'Avenir';
-  font-weight: 500;
-  font-size: 12px;
-  color: #9C9C9C;
-`
-const TextPlayers = styled.div`
-  font-family: 'Avenir';
-  font-weight: 500;
-  font-size: 12px;
-  color: #E4163A;
-`
+// const TextTeams = styled.div`
+//   font-family: 'Avenir';
+//   font-weight: 500;
+//   font-size: 12px;
+//   color: #9C9C9C;
+// `
+// const TextPlayers = styled.div`
+//   font-family: 'Avenir';
+//   font-weight: 500;
+//   font-size: 12px;
+//   color: #9C9C9C;  
+// `
 const Footer = styled.footer`
   display: flex;
   flex-direction: column;
@@ -87,4 +84,7 @@ const FooterText = styled.div`
   font-weight: 500;
   font-size: 12px;
   color: #FF768E;
+`
+const FooterDiv = styled.div`
+  cursor: pointer;
 `

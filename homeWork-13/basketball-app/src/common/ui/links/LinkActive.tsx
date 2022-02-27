@@ -1,20 +1,34 @@
 import styled from "styled-components"
+import { Link, useMatch, useResolvedPath,} from "react-router-dom";
+import type { LinkProps } from "react-router-dom";
 
-const Link = styled.a`
-  font-family: 'Avenir';
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 19px;
-  text-decoration-line: underline;
-  color: #E4163A;
+const LinkHover = styled.div`
+  :hover {
+    color: #FF5761;
+  }
 `
 
-const LinkActive = () => {
+export const CustomLink = ({ children, to, ...props }: LinkProps) => {
+  let resolved = useResolvedPath(to);
+  let match = useMatch({ path: resolved.pathname, end: true });
   return (
-    <div>
-        <Link href='#'>Link</Link>
-    </div>
+    <LinkHover>
+        <Link 
+          style={{ 
+            fontFamily: 'Avenir',
+            fontWeight: "500",
+            fontSize: "14px",
+            lineHeight: "19px",
+            textDecoration: "underline",
+            color:" #E4163A",
+          }}
+          to={to}
+          {...props}
+        >
+          {children}
+        </Link> 
+        {match}
+    </LinkHover>
   )
 }
 
-export {LinkActive}

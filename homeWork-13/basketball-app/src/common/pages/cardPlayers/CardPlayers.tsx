@@ -1,58 +1,41 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { useLocation, useNavigate} from 'react-router-dom'
-import { PlayerCard } from '../../components/playerCard/PlayerCard'
-// import { EmptySearchPlayer } from '../emptySearchPlayer/EmptySearchPlayer'
-import { InputSearch } from '../../ui/inputs/InputSearch'
-import { ButtonAdd } from '../../ui/buttons/ButtonAdd'
+import { Routes, Route} from 'react-router-dom'
+import { ChildPlayers} from '../childPlayers/ChildPlayers'
+import { DetailsPlayers } from '../detailsPlayers/DetailsPlayers'
 import { get } from '../../../api/BaseRequest'
-import { AddPlayers } from '../addPlayers/AddPlayers'
+import { Pagination } from '../../ui/pagination/Pagination'
 
 export const CardPlayers = () => {
-    const history = useNavigate()
-    const location = useLocation()
-    console.log('players',location)
+    
+    // const location = useLocation()
+    //console.log('players',location)
     const [players, setPlayers] = useState([])
+    const [playersGet, setPlayersGet] = useState([])
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [postsPerPage] = useState(6);
+    console.log(playersGet)
+    console.log(players)
+    // const indexOfLastPost = currentPage * postsPerPage;
+    // const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    // const currentPosts = playersGet.slice(indexOfFirstPost, indexOfLastPost);
 
     useEffect(() => {
         
         get(`/api/Player/GetPlayers`, '')
             .then(data => {
-                console.log(data)
-                setPlayers(data)}
-            )
-        
+                setPlayersGet(data.data)}
+            ).catch (e => {
+                console.log(e)
+            })
+
     },[])
 
-    const addPlayerRedirect = () => {
-        history("addPlayer")
-    }
+    
     return (
         <Container>
-            <Header>
-                <BlockHeader>
-                    <InputSearch/>
-                    <div style={{marginLeft: '24px'}}>multeselect</div>
-                </BlockHeader>
-                <ButtonAdd redirectToAddPage={addPlayerRedirect}/>
-            </Header>
-            <PlyaerCardList>
-                <PlayerCard/>
-                <PlayerCard/>
-                <PlayerCard/>
-                <PlayerCard/>
-                <PlayerCard/>
-                <PlayerCard/>
-            </PlyaerCardList>
-
-            {/* <EmptySearchPlayerBlock>
-                <EmptySearchPlayer/>
-            </EmptySearchPlayerBlock> */}
-            
-            <Footer>
-                <div>paginate</div>
-                <div>miniselect</div>
-            </Footer>
+            <ChildPlayers players={playersGet}/>
+            <DetailsPlayers players={playersGet}/>
         </Container>
     )
 }
@@ -61,33 +44,4 @@ const Container = styled.section`
     box-sizing: border-box;
     padding: 32px 80px;
     width: 1300px;
-`
-// const EmptySearchPlayerBlock = styled.div`
-//     padding: 139px 292px;
-// `
-
-const PlyaerCardList = styled.div`
-    width: 100%;
-    margin-top: 32px;
-    display: grid;
-    grid-template-columns: repeat(3, 364px);
-    grid-template-rows: repeat(2, 380px);
-    gap: 24px;
-`
-const Header = styled.header`
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 40px;
-`
-const BlockHeader = styled.div`
-    display: flex;
-`
-const Footer = styled.footer`
-    /* margin-top: 32px; */
-    margin-top: 32px;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 40px;
 `

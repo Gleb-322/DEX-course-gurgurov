@@ -1,35 +1,76 @@
 import { FC, useState } from 'react'
 import { Iprop } from '../../helpers/InterfaceInputs'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import { ReactComponent as OpenEye} from '../../../assets/icons/open_eye.svg'
 import { ReactComponent as CloseEye} from '../../../assets/icons/close_eye.svg'
 
-export const Input: FC<Iprop> = ({name, type, value, label, onChangeInput, errorMessage}) => {
-    const [toggleImg, setToggleImg] = useState(false)
+export const Input: FC<Iprop> = ({
+    name, 
+    type, 
+    value, 
+    label, 
+    onChangeInput, 
+    errorMessageName, 
+    errorMessageLogin, 
+    errorMessagePassword, 
+    errorMessagePasswordAgain}) => {
 
-    // switch (name) {
-
-    //     case 'SignUpName':
-    //         errorMessage ?  setMessage("Wrong name. Please, try again."): setMessage('')
-    //         break
-    //     case 'SignUpLogin':
-    //         errorMessage ?  setMessage("Wrong login. Please, try again."): setMessage('')
-    //         break
-    //     case 'SignUpPassword':
-    //         errorMessage ?  setMessage("Wrong Password. Please, try again."): setMessage('')
-    //         break
-    //     case 'SignUpPasswordAgain':
-    //         errorMessage ?  setMessage("Passwords don't match"): setMessage('')
-    //         break
-    //     default:
-    //         break
-
-    // }
+    const [visible, setVisible] = useState(false)
+    // const [pass, setPass] = useState(false)
+    // if(type === 'password')  setPass(!pass) 
+    // type = visible ? 'text' : 'password'
+    // console.log(errorMessage)
 
     return (
         <Label>
             <LabelText>{label}</LabelText>
             <InputMain 
+                name={name} 
+                type={type} 
+                value={value}
+                onChange={(e) => onChangeInput(e)}
+            />
+            {
+                type === 'password' ? (
+                    <DivImg onClick={visible => setVisible(!visible)}>
+                        <CloseEye/>
+                    </DivImg>
+                ) : null
+                // {toggleImg ? <OpenEye/> : <CloseEye/>}
+            }
+            {
+                name === 'SignUpName' ? (
+                    errorMessageName ? <ErMessage>Wrong name. Please, try again.</ErMessage> : null
+                ) : null
+            }
+            {
+                name === 'SignUpLogin' ? (
+                    errorMessageLogin ? <ErMessage>Login is too short. Please, try again.</ErMessage> : null
+                ) : null
+            }
+            {
+                name === 'SignUpPassword' ? (
+                    errorMessagePassword ? <ErMessage>Wrong Password. Please, try again.</ErMessage> : null
+                ) : null
+            }
+            {
+                name === 'SignUpPasswordAgain' ? (
+                    errorMessagePasswordAgain ? <ErMessage>Passwords don't match</ErMessage> : null
+                ) : null
+            }
+            
+        </Label>
+    )
+}
+
+
+export const InputMini: FC<Iprop> = ({name, type, value, label, onChangeInput}) => {
+    const [toggleImg, setToggleImg] = useState(false)
+
+    return (
+        <Label>
+            <LabelText>{label}</LabelText>
+            <InputMin 
                 name={name} 
                 type={type} 
                 value={value}
@@ -42,36 +83,14 @@ export const Input: FC<Iprop> = ({name, type, value, label, onChangeInput, error
                 </DivImg>
             ) : null
             }
-            {
-                name === 'SignUpName' ? (
-                    <ErMessage>Wrong name. Please, try again.</ErMessage>
-                ) : null
-            }
-            {
-                name === 'SignUpLogin' ? (
-                    <ErMessage>Wrong login. Please, try again.</ErMessage>
-                ) : null
-            }
-            {
-                name === 'SignUpPassword' ? (
-                    <ErMessage>Wrong Password. Please, try again.</ErMessage>
-                ) : null
-            }
-            {
-                name === 'SignUpPasswordAgain' ? (
-                    <ErMessage>Passwords don't match</ErMessage>
-                ) : null
-            }
-            
         </Label>
     )
 }
 
 
-const InputMain = styled.input`
+const Styles = css`
     box-sizing: border-box;
     position: relative;
-    width: 366px;
     height: 40px;
     background: #F6F6F6;
     border-radius: 4px;
@@ -92,6 +111,15 @@ const InputMain = styled.input`
     :disabled {
     color: #D1D1D1;
     }
+`
+const InputMin = styled.input`
+    width: 171px;
+    ${Styles}
+`
+
+const InputMain = styled.input`
+    width: 366px;
+    ${Styles}
 `
 const Label = styled.label`
   position: relative;
@@ -135,6 +163,7 @@ const ErMessage = styled.span`
 // `
 
 const DivImg = styled.div`
+    cursor: pointer;
     position: absolute;
     top: 12px;
     right: 12px;

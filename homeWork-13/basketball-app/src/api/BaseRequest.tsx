@@ -1,22 +1,21 @@
-
-
 const _apiBase = 'http://dev.trainee.dex-it.ru' 
 
 const request = async (url: string, data: any, token: string | undefined) => {
-    console.log('data', data)
-    const headersForToken = token !== ''
+
+    const tokening = localStorage.getItem("token")
+    const headersForToken = tokening
     ? {
-        Authorization : `Bearer ${token}`,
+        Authorization : `Bearer ${tokening}`,
     } : {}
     const headersMultiPart = typeof data.body === 'string' ? {
         "Content-type" : "application/json;charset=utf-8",
     } : {}
-
     const response = await fetch(url, {
         ...data,
         headers: {
+            mode: 'no-cors',
             ...headersForToken,
-            ...headersMultiPart
+            ...headersMultiPart,
         },
     })
 
@@ -52,5 +51,3 @@ export const put = (url: string, body: {}, token: string) => {
 export const remove = (url: string, token: string) => {
     return request(`${_apiBase}${url}`, {method: "DELETE"}, token)
 }
-
-

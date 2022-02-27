@@ -1,9 +1,15 @@
+import { FC } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as CreateSVG } from '../../../assets/icons/create.svg'
 import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg'
 import PlayerPNG  from '../../../assets/images/Player.png'
 
-export const Player = () => {
+interface Iprop {
+  players: object[]
+}
+
+export const Player: FC<Iprop> = ({players}) => {
+  // const {name, number, position, team, birthday, height, weight} = players
   return (
     <PlayerItem>
       <PlayerHeader>

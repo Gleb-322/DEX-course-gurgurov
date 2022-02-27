@@ -10,13 +10,23 @@ import { get } from '../../../api/BaseRequest'
 export const CardTeams: FC = () => {
     const redirectAddTeam = useNavigate()
     const [teams, setTeams] = useState([])
+    const [teamsGet, setTeamsGet] = useState([])
 
     useEffect(() => {
-        get(`/api/Team/GetTeams`, '')
+        get(`/api/Team/GetTeams`, localStorage.getItem("token") as string)
             .then(data => {
-                console.log(data)
-                setTeams(data)}
-            )
+                setTeamsGet(data.data)}
+            ).catch(e => {
+                console.log(e)
+            })
+
+        get(`/api/Team/Get`, localStorage.getItem("token") as string)
+            .then(data => {
+                setTeams(data.data)}
+            ).catch(e => {
+                console.log(e)
+            })
+        
         
     },[])
 
@@ -30,12 +40,16 @@ export const CardTeams: FC = () => {
                 <ButtonAdd redirectToAddPage={addTeamRedirect}/>
             </Header>
             <TeamCardList>
-                <TeamCard />
-                <TeamCard />
-                <TeamCard />
-                <TeamCard />
-                <TeamCard />
-                <TeamCard />
+                {
+                    teamsGet.map((team: any) => (
+                        <TeamCard 
+                            key={team.id}
+                            name={team.name}
+                            foundationYear={team.foundationYear}
+                            imageUrl={team.imageUrl}
+                        />
+                    ))
+                }
             </TeamCardList>
             {/* <EmptySearchTeamBlock>
                 <EmptySearchTeam />

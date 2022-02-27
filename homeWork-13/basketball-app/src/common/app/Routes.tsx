@@ -52,12 +52,12 @@ export const mainRoutes = [
             },
             
             {
-                path: "players",
+                path: "players/*",
                 element: <CardPlayers/>,
                 children: [
                     {
                         path: "players/:id",
-                        element: <DetailsPlayers />
+                        element: <DetailsPlayers players={[]}/>
                     },
                     {
                         path: "addPlayer",

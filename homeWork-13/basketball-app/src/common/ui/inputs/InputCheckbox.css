@@ -63,7 +63,7 @@
 }
 
 .container input:not(:checked) ~ .checkErrorMessage {
-    display: block;
+    display: none;
 }
   
 .container .checkmark:after {
@@ -82,7 +82,7 @@
 .checkErrorMessage {
     display: none;
     position: absolute;
-    bottom: 6px;
+    bottom: -16px;
     left: 0px;
     font-family: 'Avenir';
     font-weight: 500;

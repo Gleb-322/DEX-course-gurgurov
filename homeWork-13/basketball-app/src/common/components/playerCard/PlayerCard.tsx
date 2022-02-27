@@ -1,17 +1,36 @@
+import { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import PlayerLogo from '../../../assets/images/playerCardLogo.png'
+import { useNavigate } from 'react-router-dom'
+import { get } from '../../../api/BaseRequest'
+// import PlayerLogo from '../../../assets/images/playerCardLogo.png'
+interface Iprop {
+    name: string;
+    imageUrl: string;
+    number: number;
+    id: number;
+}
 
-export const PlayerCard = () => {
+export const PlayerCard:  FC<Iprop> = ({name, imageUrl, number, id}) => {
+
+    const details = useNavigate()
+    const handlerDetails = () => {
+        details(`players/:${id}`)
+    }
     return (
-        <Container>
-            <img src={PlayerLogo} alt='player' />
+        <Container onClick={handlerDetails}>
+            <Img src={`http://dev.trainee.dex-it.ru${imageUrl}`} alt='player' />
             <Footer>
-                <Title>Jaylen Adams <Span>#10</Span></Title>
+                <Title>{name} <Span>#{number}</Span></Title>
                 <Subtitle>Portland trail blazers</Subtitle>
             </Footer>
         </Container>
     )
 }
+
+const Img = styled.img`
+    width: 274px;
+    height: 207px;
+`
 
 const Container = styled.div`
     cursor: pointer;

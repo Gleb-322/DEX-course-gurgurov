@@ -1,6 +1,6 @@
 import './InputCheckbox.css'
 
-const InputCheckBox = () => {
+export const InputCheckBox = () => {
   return (
     <label className="container">I accept the agreement
       <input className='checkbox' type="checkbox"/>
@@ -10,5 +10,4 @@ const InputCheckBox = () => {
   )
 }
 
-export {InputCheckBox}
 

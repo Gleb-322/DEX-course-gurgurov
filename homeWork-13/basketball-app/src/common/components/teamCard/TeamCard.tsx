@@ -1,21 +1,30 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import TeamLogo from '../../../assets/images/teamCardLogo.png'
-
-export const TeamCard: FC = () => {
+interface Iprop {
+    name: string;
+    foundationYear: number;
+    imageUrl: string;
+}
+export const TeamCard: FC<Iprop> = ({name, foundationYear, imageUrl}) => {
     
     return (
         <Container>
             <DivImg>
-                <img src={TeamLogo} alt='team' />
+                <Img src={`http://dev.trainee.dex-it.ru${imageUrl}`} alt='team' />
             </DivImg>
             <Footer>
-                <Title>Portland trail blazers</Title>
-                <Subtitle>Year of foundation: 1970</Subtitle>
+                <Title>{name}</Title>
+                <Subtitle>Year of foundation: {foundationYear}</Subtitle>
             </Footer>
         </Container>
     )
 }
+
+const Img = styled.img`
+    width: 150px;
+    height: 150px;
+`
 
 const Container = styled.div`
     cursor: pointer;

@@ -2,8 +2,9 @@ import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
 import { Header } from '../../components/header/Header'
 import { SideBar } from '../../components/sideBar/SideBar'
-
-
+import { AddPlayers } from '../addPlayers/AddPlayers'
+import { DetailsPlayers } from '../detailsPlayers/DetailsPlayers'
+import { DetailsTeams } from '../detailsTeams/DetailsTeams'
 
 export const Layout = () => {
   return (
@@ -12,8 +13,10 @@ export const Layout = () => {
         <Main>
           <SideBar />
           <Content>
-            <Outlet/>
-            
+            {/* <DetailsPlayers/> */}
+            <AddPlayers/>
+            {/* <DetailsTeams/> */}
+            {/* <Outlet /> */}
           </Content>
         </Main>
         

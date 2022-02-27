@@ -1,4 +1,4 @@
-import { FC,  useState, useEffect} from 'react'
+  import { FC,  useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { ReactComponent as SignUpSVG} from '../../../assets/images/SignUp.svg'
@@ -17,17 +17,22 @@ export const SignUp: FC = () => {
     const [inputPassword, setInputPassword] = useState('')
     const [inputPasswordAgain, setInputPasswordAgain] = useState('')
     const [inputPasswordError, setInputPasswordError] = useState(false) 
+    const [inputPasswordAgainError, setInputPasswordAgainError] = useState(false) 
 
     const [postForm, setPostForm] = useState(false)
     // const [ckeckValid, setCheckValid] = useState(false)
-    const [validForm, setValidForm] = useState(false)
 
-    const [token, setToken] = useState('')
+    const [inputTypeText] = useState('text')
+    const [inputTypePass] = useState('password')
 
-    const [inputType, setInputType] = useState('text')
+    const [loginError, setLoginError] = useState(false)
+
+    const [passwordError, setPasswordError] = useState(false) 
+    const [passwordAgainError, setPasswordAgainError] = useState(false) 
+    const [nameError, setNameError] = useState(false)
 
     const [stateForm, setStateForm] = useState({
-        name: '',
+        userName: '',
         login: '',
         password: ''
     })
@@ -38,10 +43,10 @@ export const SignUp: FC = () => {
         if (postForm) {
             post(`/api/Auth/SignUp` ,JSON.stringify(stateForm), '')
                 .then(data => {
-                    setToken(data.token)
-                    console.log(token)
-                    localStorage.setItem("token", JSON.stringify(token))
+                    localStorage.setItem("token", data.token)
                     redirect("/teams")
+                }).catch(e => {
+                    console.log(e.status)
                 })
             setPostForm(!postForm)
         }
@@ -49,38 +54,26 @@ export const SignUp: FC = () => {
     },[postForm])
 
     useEffect(() => {
-            if (inputNameError || inputLoginError || inputPasswordError) {
-                setValidForm(false)
-    
-            } else {
-                setValidForm(true)
-                
-            }
-        
-    },[inputNameError, inputLoginError, inputPasswordError])
+        inputName.length < 3 ? setInputNameError(true) : setInputNameError(false)
+        inputLogin.length < 3 ? setInputLoginError(true) : setInputLoginError(false)
+        inputPassword.length < 3 || inputPassword.length > 6 ? setInputPasswordError(true) : setInputPasswordError(false)
+        inputPasswordAgain !== inputPassword ? setInputPasswordAgainError(true) : setInputPasswordAgainError(false)        
+    },[inputName, inputLogin, inputPassword, inputPasswordAgain])
 
     const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
-        setPostForm(!postForm)
-        if (inputName.length === 0) {
-            setInputNameError(true)
-        }
-        if (inputLogin.length === 0) {
-            setInputLoginError(true)
-        }
-        if (inputPassword.length < 3 || inputPassword.length === 0) {
-            setInputPasswordError(true)
-        }
-        if (inputPasswordAgain !== inputPassword) {
-            setInputPasswordError(true)
-        } 
+        inputNameError ? setNameError(true) : setNameError(false)
+        inputLoginError ? setLoginError(true) : setLoginError(false)
+        inputPasswordError ? setPasswordError(true) : setPasswordError(false)
+        inputPasswordAgainError ? setPasswordAgainError(true) : setPasswordAgainError(false)
         if (!inputNameError && !inputLoginError && !inputPasswordError) {
             setStateForm((state) => ({
                 ...state,
-                name: inputName,
+                userName: inputName,
                 login: inputLogin,
                 password: inputPassword
             }))
+            setPostForm(!postForm)
         }
     }
     const handlerInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -88,24 +81,20 @@ export const SignUp: FC = () => {
         switch (name)  {
             case 'SignUpName':
                     setInputName(e.target.value)
-                    setInputType('text')
                 break
             case 'SignUpLogin':
                     setInputLogin(e.target.value)
-                    setInputType('text')
                 break
             case 'SignUpPassword':
-                
                     setInputPassword(e.target.value)
-                    setInputType('password')
                 break
             case 'SignUpPasswordAgain':
                     setInputPasswordAgain(e.target.value)
-                    setInputType('password')
                 break
         }
 
     }
+
 
     return (
         <Section>
@@ -116,37 +105,37 @@ export const SignUp: FC = () => {
                         <Input
                             label={'Name'} 
                             name={'SignUpName'}
-                            type={inputType}
+                            type={inputTypeText}
                             value={inputName}
                             onChangeInput={handlerInput}
-                            errorMessage={inputNameError}
+                            errorMessageName={nameError}
                         />
                         <Input
                             label={'Login'} 
                             name={'SignUpLogin'}
-                            type={inputType}
+                            type={inputTypeText}
                             value={inputLogin}
                             onChangeInput={handlerInput}
-                            errorMessage={inputLoginError}
+                            errorMessageLogin={loginError}
                         />
                         <Input
                             label={'Password'} 
                             name={'SignUpPassword'} 
-                            type={inputType}
+                            type={inputTypePass}
                             value={inputPassword}
                             onChangeInput={handlerInput}
-                            errorMessage={inputPasswordError}
+                            errorMessagePassword={passwordError}
                         />
                         <Input
                             label={'Enter your password again'}
                             name={'SignUpPasswordAgain'} 
-                            type={inputType}
+                            type={inputTypePass}
                             value={inputPasswordAgain}
                             onChangeInput={handlerInput}
-                            errorMessage={inputPasswordError}
+                            errorMessagePasswordAgain={passwordAgainError}
                         />
                         <InputCheckBox/>
-                        <Button disabled={!validForm} type={'submit'}>Sign Up</Button>
+                        <Button type={'submit'}>Sign Up</Button>
                         <Footer>Not a member yet? <Link to='/signIn'>Sign In</Link></Footer>
                     </Field>
                 </Form>
@@ -161,7 +150,7 @@ export const SignUp: FC = () => {
 
 const Section = styled.section`
     position: relative;
-    width: 100vh;
+    width: 100vw;
     height: 100vh;
     display: grid;
     grid-template-columns: 606px 834px;
@@ -176,7 +165,8 @@ const SignBlock = styled.div`
 const Form = styled.form``
 const Field = styled.fieldset`
     display: grid;
-    grid-template-rows: 100px 90px 90px 90px 55px 50px 48px;
+    grid-template-rows: repeat(5, 92px) 48px 50px 48px;
+    align-items: center;
     border: none;
 `
 const Legend = styled.legend`
@@ -217,7 +207,6 @@ const SignImg = styled.div``
 const Footer = styled.div`
     display: block;
     margin: 0 auto;
-    margin-top: 24px;
     font-family: 'Avenir';
     font-weight: 500;
     font-size: 14px;

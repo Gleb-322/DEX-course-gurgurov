@@ -1,14 +1,19 @@
+import { FC } from 'react'
 import styled, {css} from 'styled-components'
 
-export const ButtonCancel = () => {
+interface Iprop {
+  back: () => void
+}
+
+export const ButtonCancel: FC<Iprop> = ({back}) => {
   return (
-    <ButtonC>Cancel</ButtonC>
+    <ButtonC onClick={() => back} >Cancel</ButtonC>
   )
 }
 
 export const ButtonSave = () => {
   return (
-    <ButtonS>Save</ButtonS>
+    <ButtonS type={"submit"}>Save</ButtonS>
   )
 }
 

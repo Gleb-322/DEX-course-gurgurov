@@ -19,11 +19,11 @@ export const AddTeams: FC = () => {
     return (
         <Container>
             <TeamHeader>Teams <TeamHeaderSpan>/</TeamHeaderSpan> Add new team</TeamHeader>
-            <TeamWrapper>
+            {/* <TeamWrapper> */}
                 <AddImgBlock>
                     <AddSVG/>
                 </AddImgBlock>
-                <TeamForm>
+                {/* <TeamForm>
                     <Input 
                         label={'Name'}
                         name={'addNamePlayer'} 
@@ -55,13 +55,13 @@ export const AddTeams: FC = () => {
                         value={input}
                         onChangeInput={handlerInput}
                         errorMessage={errorInput}
-                    />
-                    <ButtonsBlock>
+                    /> */}
+                    {/* <ButtonsBlock>
                         <ButtonCancel/>
                         <ButtonSave/>
                     </ButtonsBlock>
                 </TeamForm>
-            </TeamWrapper>
+            </TeamWrapper> */}
         </Container>
     )
 }
