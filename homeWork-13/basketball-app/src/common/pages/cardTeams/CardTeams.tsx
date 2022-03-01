@@ -1,33 +1,28 @@
-import { FC, useState, useEffect} from 'react'
+import { FC, useEffect} from 'react'
 import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { TeamCard } from '../../components/teamCard/TeamCard'
+import { getTeams } from '../../../core/redux/mainSlice'
 // import { EmptySearchTeam } from '../emptySearchTeam/EmptySearchTeam'
 import { InputSearch } from '../../ui/inputs/InputSearch'
 import { ButtonAdd } from '../../ui/buttons/ButtonAdd'
 import { get } from '../../../api/BaseRequest'
+import { RootState } from '../../../core/redux/store'
 
 export const CardTeams: FC = () => {
     const redirectAddTeam = useNavigate()
-    const [teams, setTeams] = useState([])
-    const [teamsGet, setTeamsGet] = useState([])
+    const dispatch = useDispatch()
+    const teams = useSelector((state: RootState) => state.todosData.teams)
 
     useEffect(() => {
         get(`/api/Team/GetTeams`, localStorage.getItem("token") as string)
             .then(data => {
-                setTeamsGet(data.data)}
+                dispatch(getTeams(data.data))}
             ).catch(e => {
                 console.log(e)
             })
 
-        get(`/api/Team/Get`, localStorage.getItem("token") as string)
-            .then(data => {
-                setTeams(data.data)}
-            ).catch(e => {
-                console.log(e)
-            })
-        
-        
     },[])
 
     const addTeamRedirect = () => {
@@ -41,14 +36,15 @@ export const CardTeams: FC = () => {
             </Header>
             <TeamCardList>
                 {
-                    teamsGet.map((team: any) => (
-                        <TeamCard 
-                            key={team.id}
-                            name={team.name}
-                            foundationYear={team.foundationYear}
-                            imageUrl={team.imageUrl}
-                        />
-                    ))
+                    // teams.map((team: any) => (
+                    //     <TeamCard 
+                    //         key={team.id}
+                    //         name={team.name}
+                    //         foundationYear={team.foundationYear}
+                    //         imageUrl={team.imageUrl}
+                    //         id={team.id}
+                    //     />
+                    // ))
                 }
             </TeamCardList>
             {/* <EmptySearchTeamBlock>

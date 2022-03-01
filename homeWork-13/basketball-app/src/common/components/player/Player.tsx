@@ -3,17 +3,18 @@ import styled from 'styled-components'
 import { ReactComponent as CreateSVG } from '../../../assets/icons/create.svg'
 import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg'
 import PlayerPNG  from '../../../assets/images/Player.png'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../core/redux/store'
 
-interface Iprop {
-  players: object[]
-}
-
-export const Player: FC<Iprop> = ({players}) => {
-  // const {name, number, position, team, birthday, height, weight} = players
+export const Player: FC = () => {
+  const playerById = useSelector((state: RootState) => state.todosData.playerById)
+  // @ts-ignore
+  const {name, number, position, birthday, height, weight, avatarUrl, teamName} = playerById
+  let age = birthday
   return (
     <PlayerItem>
       <PlayerHeader>
-        <PlayerHeaderText>Players <PlayerHeaderSpan>/</PlayerHeaderSpan> Greg Whittington</PlayerHeaderText>
+        <PlayerHeaderText>Players <PlayerHeaderSpan>/</PlayerHeaderSpan> {name}</PlayerHeaderText>
         <PlayerHeaderIcons>
           <CreateSVG/>
           <DeleteSVG/>
@@ -21,30 +22,30 @@ export const Player: FC<Iprop> = ({players}) => {
       </PlayerHeader>
       <PlayerWrapper>
         <LogoDiv>
-          <Img src={PlayerPNG} alt='player'/>
+          <Img src={`http://dev.trainee.dex-it.ru${avatarUrl}`} alt='player'/>
         </LogoDiv>
         <PlayerDescr>
-          <PlayerName>Greg Whittington <NumberSpan>#22</NumberSpan></PlayerName>
+          <PlayerName>{name} <NumberSpan>#{number}</NumberSpan></PlayerName>
           <PlayerBlock>
             <PlayerModule>
               <PlayerTitle>Position</PlayerTitle>
-              <PlayerContent><Small>Forward</Small></PlayerContent>
+              <PlayerContent><Small>{position}d</Small></PlayerContent>
             </PlayerModule>
             <PlayerModule>
               <PlayerTitle>Team</PlayerTitle>
-              <PlayerContent><Small>Denver Nuggets</Small></PlayerContent>
+              <PlayerContent><Small>{teamName}</Small></PlayerContent>
             </PlayerModule>
             <PlayerModule>
               <PlayerTitle>Height</PlayerTitle>
-              <PlayerContent><Small>206 cm</Small></PlayerContent>
+              <PlayerContent><Small>{height} cm</Small></PlayerContent>
             </PlayerModule>
             <PlayerModule>
               <PlayerTitle>Weight</PlayerTitle>
-              <PlayerContent><Small>95 kg</Small></PlayerContent>
+              <PlayerContent><Small>{weight} kg</Small></PlayerContent>
             </PlayerModule>
             <PlayerModule>
               <PlayerTitle>Age</PlayerTitle>
-              <PlayerContent><Small>27</Small></PlayerContent>
+              <PlayerContent><Small>{age}</Small></PlayerContent>
             </PlayerModule>
           </PlayerBlock>
         </PlayerDescr>

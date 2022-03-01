@@ -1,13 +1,27 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import TeamLogo from '../../../assets/images/teamCardLogo.png'
+// import TeamLogo from '../../../assets/images/teamCardLogo.png'
+import { get } from '../../../api/BaseRequest'
+import { useDispatch } from 'react-redux'
+// import { getTeamsById } from '../../../core/redux/mainSlice'
 interface Iprop {
     name: string;
     foundationYear: number;
     imageUrl: string;
+    id: number;
 }
-export const TeamCard: FC<Iprop> = ({name, foundationYear, imageUrl}) => {
+export const TeamCard: FC<Iprop> = ({name, foundationYear, imageUrl, id}) => {
+    const dispatch = useDispatch()
     
+    // useEffect(() => {
+    //     get(`/api/Team/Get/:${id}`, localStorage.getItem("token") as string)
+    //         .then(data => {
+    //             dispatch(getTeamsById(data.id))}
+    //         ).catch(e => {
+    //             console.log(e)
+    //         })
+    // }, [])
+
     return (
         <Container>
             <DivImg>

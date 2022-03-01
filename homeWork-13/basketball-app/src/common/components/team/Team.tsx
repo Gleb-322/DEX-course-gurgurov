@@ -1,15 +1,20 @@
+import { FC } from "react"
 import styled from "styled-components"
-
+import { RootState } from '../../../core/redux/store'
 import { ReactComponent as CreateSVG } from '../../../assets/icons/create.svg'
 import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg'
 import TeamPNG from '../../../assets/images/Team.png'
+import { useSelector } from "react-redux"
 
 
-export const Team = () => {
+export const Team: FC = () => {
+  const teamById = useSelector((state: RootState) => state.todosData.teamById)
+  // @ts-ignore
+  const {name, foundationYear, division, conference, imageUrl} = teamById
   return (
     <TeamItem>
       <TeamHeader>
-        <TeamHeaderText>Teams <TeamHeaderSpan>/</TeamHeaderSpan> Denver Nuggets</TeamHeaderText>
+        <TeamHeaderText>Teams <TeamHeaderSpan>/</TeamHeaderSpan> {name}</TeamHeaderText>
         <TeamHeaderIcons>
           <CreateSVG />
           <DeleteSVG />
@@ -17,22 +22,22 @@ export const Team = () => {
       </TeamHeader>
       <TeamWrapper>
         <SvgDiv>
-          <Img src={TeamPNG} alt='team'/>
+          <Img src={`http://dev.trainee.dex-it.ru${imageUrl}`} alt='team'/>
         </SvgDiv>
         <TeamDescr>
           <TeamName>Denver Nuggets</TeamName>
           <TeamBlock>
             <TeamModule>
               <TeamTitle>Year of foundation</TeamTitle>
-              <TeamContent><Small>1976</Small></TeamContent>
+              <TeamContent><Small>{foundationYear}</Small></TeamContent>
             </TeamModule>
             <TeamModule>
               <TeamTitle>Division</TeamTitle>
-              <TeamContent><Small>Northwestern</Small></TeamContent>
+              <TeamContent><Small>{division}</Small></TeamContent>
             </TeamModule>
             <TeamModule>
               <TeamTitle>Conference</TeamTitle>
-              <TeamContent><Small>Western</Small></TeamContent>
+              <TeamContent><Small>{conference}</Small></TeamContent>
             </TeamModule>
           </TeamBlock>
         </TeamDescr>

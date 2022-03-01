@@ -35,11 +35,15 @@ export const mainRoutes = [
         element: <Layout />,
         children: [
             {
+                index: true,
+                element: <CardTeams/>,
+            },
+            {
                 path: "teams",
                 element: <CardTeams/>,
                 children: [
                     {
-                        path: "teams/:id",
+                        path: ":id",
                         element: <DetailsTeams />
                     },
                     {
@@ -52,12 +56,12 @@ export const mainRoutes = [
             },
             
             {
-                path: "players/*",
+                path: "players",
                 element: <CardPlayers/>,
                 children: [
                     {
-                        path: "players/:id",
-                        element: <DetailsPlayers players={[]}/>
+                        path: ":id",
+                        element: <DetailsPlayers/>
                     },
                     {
                         path: "addPlayer",

@@ -1,27 +1,48 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { get } from '../../../api/BaseRequest'
+import { getPlayersById } from '../../../core/redux/mainSlice'
 // import PlayerLogo from '../../../assets/images/playerCardLogo.png'
 interface Iprop {
     name: string;
     imageUrl: string;
     number: number;
     id: number;
+    teamName: string;
 }
 
-export const PlayerCard:  FC<Iprop> = ({name, imageUrl, number, id}) => {
+export const PlayerCard:  FC<Iprop> = ({name, imageUrl, number, id, teamName}) => {
+    const [postForm, setPostForm] = useState(false)
+    const dispatch = useDispatch()
+    console.log("Id PlayerCard",id)
+    useEffect(() => {
+        if(postForm) {
+            get(`/api/Player/Get?id=${id}`, localStorage.getItem("token") as string)
+            .then(data => {
+                console.log('dataId', data)
+                dispatch(getPlayersById(data))
+            }
 
+            ).catch(e => {
+                console.log(e)
+            }) 
+            setPostForm(!postForm)
+        }
+    },[postForm])
+    
     const details = useNavigate()
     const handlerDetails = () => {
         details(`players/:${id}`)
+        setPostForm(!postForm)
     }
     return (
         <Container onClick={handlerDetails}>
             <Img src={`http://dev.trainee.dex-it.ru${imageUrl}`} alt='player' />
             <Footer>
                 <Title>{name} <Span>#{number}</Span></Title>
-                <Subtitle>Portland trail blazers</Subtitle>
+                <Subtitle>{teamName}</Subtitle>
             </Footer>
         </Container>
     )

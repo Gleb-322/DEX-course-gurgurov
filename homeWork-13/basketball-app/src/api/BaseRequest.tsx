@@ -18,7 +18,6 @@ const request = async (url: string, data: any, token: string | undefined) => {
             ...headersMultiPart,
         },
     })
-
     if (response.ok) {
         if (response.headers.get('Content-Length') === '0') {
             return true

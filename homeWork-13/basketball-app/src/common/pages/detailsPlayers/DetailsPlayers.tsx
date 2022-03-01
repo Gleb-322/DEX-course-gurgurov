@@ -3,14 +3,12 @@ import styled from "styled-components"
 import { Player } from "../../components/player/Player"
 import { get } from '../../../api/BaseRequest'
 
-interface Iprop {
-    players: object[]
-}
-export const DetailsPlayers: FC<Iprop> = ({players}) => {
+
+export const DetailsPlayers: FC = () => {
     
     return (
         <Container>
-            <Player players={players}/>
+            <Player />
         </Container>
     )
 }

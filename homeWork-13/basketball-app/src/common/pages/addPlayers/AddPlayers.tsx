@@ -1,13 +1,33 @@
-import { FC,  useState, useEffect} from 'react'
+import { FC,  useState, useEffect, useRef,} from 'react'
 import styled from "styled-components"
 import { useNavigate } from 'react-router-dom'
 import { ButtonCancel, ButtonSave } from '../../ui/buttons/ButtonCancelSave'
+import { useDispatch } from 'react-redux'
 import { Input, InputMini } from '../../ui/inputs/Input'
 import { InputFile } from '../../ui/inputs/InputFile'
 import { post } from '../../../api/BaseRequest'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../core/redux/store'
+import { getTeamId } from '../../../core/redux/mainSlice'
+import { addPlayer, addImagePlayer } from '../../../core/redux/mainSlice'
+
+export interface IformData {
+    name: string;
+    number: number;
+    team: number;
+    birthday: string;
+    height: number;
+    weight: number;
+    avatarUrl: string;
+    position: string;
+}
+
 
 export const AddPlayers: FC = () => {
     const redirectBack = useNavigate()
+    const dispatch = useDispatch()
+    const newInputTeamId = useSelector((state:RootState) => state.todosData.findTeam)
+    
     const [inputAddName, setAddNameInput] = useState('')
     const [inputAddPosition, setAddPositionInput] = useState('')
     const [inputAddTeam, setAddTeamInput] = useState('')
@@ -15,58 +35,105 @@ export const AddPlayers: FC = () => {
     const [inputAddNumber, setAddNumberInput] = useState('')
     const [inputAddHeight, setAddHeightInput] = useState('')
     const [inputAddWeight, setAddWeightInput] = useState('')
-
-    const [inputAddAvatar, setAddAvatarInput] = useState('fewfwe')
-
+    const [formDataPost, setFormDataPost] = useState({})
     const [inputTypeText] = useState('text')
     const [inputTypeNumber] = useState('number')
     const [inputTypeDate] = useState('date')
-
     const [postForm, setPostForm] = useState(false)
-
-
-    const [stateForm, setStateForm] = useState({
-        name: "",
-        number: '',
-        position: "",
-        team: '',
-        birthday: "",
-        height: '',
-        weight: '',
-        avatarUrl: "",
-    })
+   
+    // const avatarAdd = useSelector((state: RootState) => state.todosData.imageAddPlayer)
 
     useEffect(() => {
         if(postForm) {
-            post(`/api/Player/Add`, JSON.stringify(stateForm), '')
-                .then(data => console.log(data))
+            
+            post(`/api/Player/Add`, JSON.stringify(formDataPost), '')
+                .then(data => {
+                    console.log("addDataPlayer", data)
+                    dispatch(addPlayer(data))
+                })
                 .catch (e => {
                     console.log(e)
                 })
-        } else {
 
-        }
+                if(preview) {
+                    
+                    const formData = new FormData()
+                    formData.append('preview', preview)
+                    
+                    post(`/api/Image/SaveImage`, (formData), '')
+                        .then(data => console.log(data))
+                        .catch (e => {
+                            console.log(e)
+                    })
+                } 
+            
+            setPostForm(!postForm)
+        } 
+
         
     },[postForm])
+
+
+    const [image, setImage] = useState<File | null>()
+    const [preview, setPreview] = useState<string | null>()
+    
+    const fileInputRef = useRef<HTMLInputElement>()
+
+    useEffect(() => {
+        if(image) {
+            const raeder = new FileReader()
+            raeder.onloadend = () => {
+                setPreview(raeder.result as string)
+            }
+            
+        } else {
+            setPreview(null)
+        }
+    }, [image])
+
+
+    const onChangeInputFIle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // @ts-ignore
+        const file = e.target.files[0];
+        if (file && file.type.substr(0, 5) === 'image') {
+            setImage(file)
+        } else {
+            
+            setImage(null)
+        }
+    }
+    const onClicInputFIle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
+        e.preventDefault()
+        fileInputRef.current?.click()
+    }
+    
+
+    const onClickImgFile = () => {
+        setImage(null)
+    }
 
     const cancelBtn = () => {
         redirectBack(-1)
     }
 
+
     const handlerSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
-
-        setStateForm((state) => ({
-            ...state,
-            name: inputAddName,
-            number: inputAddNumber,
+        
+        const allData = {
+            
+            name: inputAddName.toLowerCase().replace(inputAddName[0], inputAddName[0].toUpperCase()),
+            number: +inputAddNumber,
             position: inputAddPosition,
-            team: inputAddTeam,
-            birthday: inputAddBirthday,
-            height: inputAddHeight,
-            weight: inputAddWeight,
-            avatarUrl: inputAddAvatar,
-        }))
+            team: newInputTeamId,
+            birthday: new Date(inputAddBirthday).toISOString(),
+            height: +inputAddHeight as number,
+            weight: +inputAddWeight as number,
+            avatarUrl: 'string',
+        }
+
+        setFormDataPost(allData)
+        
         setPostForm(!postForm)
     }
     
@@ -96,17 +163,17 @@ export const AddPlayers: FC = () => {
                 break
             }
         }
-
-    const handlerFile = () => {
-
-    }
-    
     return (
         <Container>
             <PlayerHeader>Players <PlayerHeaderSpan>/</PlayerHeaderSpan> Add new layer</PlayerHeader>
             <PlayerWrapper>
                 <InputFile 
-                    onChangeFile={handlerFile}
+                    onChangeInputFIle={onChangeInputFIle}
+                    onClickImgFile={onClickImgFile}
+                    onClicInputFIle={onClicInputFIle}
+                    preview={preview}
+                    fileInputRef={fileInputRef}
+
                 />
                 <PlayerForm onSubmit={handlerSubmit}>
                     <Input 
@@ -127,6 +194,7 @@ export const AddPlayers: FC = () => {
                         label={'Team'}
                         name={'addTeamPlayer'} 
                         type={inputTypeText}
+                        // @ts-ignore
                         value={inputAddTeam}
                         onChangeInput={handlerInput}
                     />

@@ -2,7 +2,6 @@ import { FC, useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { ReactComponent as SignInSVG} from '../../../assets/images/SignIn.svg'
 
-
 import { Input } from '../../ui/inputs/Input'
 import { Link, useNavigate} from 'react-router-dom'
 import { post } from '../../../api/BaseRequest'

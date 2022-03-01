@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { Header } from '../../components/header/Header'
 import { SideBar } from '../../components/sideBar/SideBar'
 import { AddPlayers } from '../addPlayers/AddPlayers'
+import { CardPlayers } from '../cardPlayers/CardPlayers'
+import { CardTeams } from '../cardTeams/CardTeams'
+import { AddTeams } from '../addTeams/AddTeams'
 import { DetailsPlayers } from '../detailsPlayers/DetailsPlayers'
 import { DetailsTeams } from '../detailsTeams/DetailsTeams'
 
@@ -14,7 +17,11 @@ export const Layout = () => {
           <SideBar />
           <Content>
             {/* <DetailsPlayers/> */}
+        
+            <AddTeams/>
+            <CardTeams/>
             <AddPlayers/>
+            <CardPlayers/>
             {/* <DetailsTeams/> */}
             {/* <Outlet /> */}
           </Content>

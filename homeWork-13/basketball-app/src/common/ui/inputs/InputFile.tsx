@@ -1,28 +1,37 @@
 import { ReactComponent as AddSVG } from '../../../assets/icons/add_a_photo.svg'
 import styled from 'styled-components'
-import { FC , useRef, useState, useEffect } from 'react'
+import { FC ,  useState, useEffect, MutableRefObject } from 'react'
+
 
 interface Iprop {
-    onChangeFile: () => void
+    preview: string | null | undefined;
+    onClickImgFile: () => void;
+    onClicInputFIle: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onChangeInputFIle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    fileInputRef: MutableRefObject<HTMLInputElement | undefined>
 }
 
-
-export const InputFile: FC<Iprop> = ({onChangeFile})  => {
-    const [image, setImage] = useState<File | null>()
-    const [preview, setPreview] = useState<string | null>()
+export const InputFile: FC<Iprop> = ({preview, onClickImgFile, onClicInputFIle, onChangeInputFIle, fileInputRef})  => {
     
-    const fileInputRef = useRef<HTMLInputElement>()
-    useEffect(() => {
-        if(image) {
-            const raeder = new FileReader()
-            raeder.onloadend = () => {
-                setPreview(raeder.result as string)
-            }
-            raeder.readAsDataURL(image)
-        } else {
-            setPreview(null)
-        }
-    }, [image])
+    // const [image, setImage] = useState<File | null>()
+    // const [preview, setPreview] = useState<string | null>()
+    
+    // const fileInputRef = useRef<HTMLInputElement>()
+    // useEffect(() => {
+    //     if(image) {
+    //         const formData = new FormData()
+    //         formData.append('/images/', image)
+    //         const raeder = new FileReader()
+    //         raeder.onloadend = () => {
+    //             setPreview(raeder.result as string)
+    //         }
+    //         raeder.readAsDataURL(image)
+            
+            
+    //     } else {
+    //         setPreview(null)
+    //     }
+    // }, [image])
     return (
         <AddImgBlock>
             
@@ -30,17 +39,16 @@ export const InputFile: FC<Iprop> = ({onChangeFile})  => {
                     <img 
                         src={preview} 
                         alt='img'
-                        style={{objectFit: "cover"}}
-                        onClick={() => {
-                            setImage(null)
-                        }}
+                        style={{
+                            objectFit: "cover",
+                            width: '336px',
+                            height: '261px'
+                            }}
+                        onClick={() => onClickImgFile()}
                     />
                 ) 
                 : (
-                <Button onClick={(e) => {
-                    e.preventDefault()
-                    fileInputRef.current?.click()
-                }}>
+                <Button onClick={(e) => onClicInputFIle(e)}>
                     <AddSVG/>
                 </Button>
                 )
@@ -51,17 +59,8 @@ export const InputFile: FC<Iprop> = ({onChangeFile})  => {
                 accept="image/*"
                 // @ts-ignore
                 ref={fileInputRef} 
-                onChange={(e) => {
-                    // @ts-ignore
-                    const file = e.target.files[0];
-                    if (file && file.type.substr(0, 5) === 'image') {
-                        setImage(file)
-                    } else {
-                        
-                        setImage(null)
-                    } 
-                }
-            }/>
+                onChange={(e) => onChangeInputFIle(e)}
+            />
         </AddImgBlock>
   )
 }
@@ -82,6 +81,4 @@ const Button = styled.button`
     border: none;
 `
 
-const AddImgBlock = styled.div`
-    
-`
+const AddImgBlock = styled.div``

@@ -46,7 +46,7 @@ export const SignUp: FC = () => {
                     localStorage.setItem("token", data.token)
                     redirect("/teams")
                 }).catch(e => {
-                    console.log(e.status)
+                    console.log(e)
                 })
             setPostForm(!postForm)
         }
